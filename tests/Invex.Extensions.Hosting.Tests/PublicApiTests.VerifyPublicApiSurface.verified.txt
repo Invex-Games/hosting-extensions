@@ -1,0 +1,65 @@
+﻿[
+  {
+    Name: Invex.Extensions.Hosting.Control.HostControlHostExtensions,
+    Members: [
+      {
+        Name: AddHostControl
+      }
+    ]
+  },
+  {
+    Name: Invex.Extensions.Hosting.Control.IHostControl,
+    Members: [
+      {
+        Name: StopApplication
+      }
+    ]
+  },
+  {
+    Name: Invex.Extensions.Hosting.Service.CycleBackgroundService
+  },
+  {
+    Name: Invex.Extensions.Hosting.ServiceCollectionExtensions,
+    Members: [
+      {
+        Name: AddHostedService
+      },
+      {
+        Name: AddHostedService
+      },
+      {
+        Name: AddHostedService
+      },
+      {
+        Name: AddHostedService
+      },
+      {
+        Name: AddHostedService
+      },
+      {
+        Name: AddScoped
+      },
+      {
+        Name: AddScoped
+      },
+      {
+        Name: AddScoped
+      },
+      {
+        Name: AddScoped
+      },
+      {
+        Name: AddSingleton
+      },
+      {
+        Name: AddSingleton
+      },
+      {
+        Name: AddSingleton
+      },
+      {
+        Name: AddSingleton
+      }
+    ]
+  }
+]
