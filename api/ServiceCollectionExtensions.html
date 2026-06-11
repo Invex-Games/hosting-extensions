@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>ServiceCollectionExtensions | Invex.Extensions.Hosting </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="ServiceCollectionExtensions | Invex.Extensions.Hosting ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Invex-Games/hosting-extensions/blob/main/api/ServiceCollectionExtensions.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Invex.Extensions.Hosting">
+            Invex.Extensions.Hosting
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="servicecollectionextensions">ServiceCollectionExtensions</h1>
+
+<pre><code class="lang-csharp">namespace Invex.Extensions.Hosting;
+
+public static class ServiceCollectionExtensions
+</code></pre>
+<p>Provides extension methods for <code>IServiceCollection</code> that register a single implementation type
+under multiple service types (&quot;forwarded&quot; registrations) while sharing one instance per lifetime.</p>
+<p>The standard <code>AddSingleton</code>/<code>AddScoped</code> methods create an <em>independent</em> instance per service type
+when the same implementation is registered multiple times. The overloads in this class instead
+register the implementation type once and forward each service type to it, so resolving any of the
+service types yields the same instance (per scope, for scoped registrations).</p>
+<blockquote>
+<p>Conceptual guide: <a href="../docs/multi-interface-registration.html">Multi-interface registration</a></p>
+</blockquote>
+<hr>
+<h2 id="methods">Methods</h2>
+<h3 id="addsingleton">AddSingleton</h3>
+<pre><code class="lang-csharp">public static IServiceCollection AddSingleton&lt;TService1, TService2, TImplementation&gt;(
+    this IServiceCollection services)
+    where TService1 : class
+    where TService2 : class
+    where TImplementation : class, TService1, TService2;
+</code></pre>
+<p>Overloads exist for <strong>2, 3, 4, and 5</strong> service types
+(<code>AddSingleton&lt;TService1, …, TService5, TImplementation&gt;</code>), each with the corresponding
+<code>where TImplementation : class, TService1, …, TServiceN</code> constraint.</p>
+<p>Adds a singleton service of each specified service type with a single shared implementation
+instance.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type parameters</strong></td>
+<td><code>TService1…N</code> — the service types to add. <code>TImplementation</code> — the implementation type; must implement all service types.</td>
+</tr>
+<tr>
+<td><strong>Parameters</strong></td>
+<td><code>services</code> — the <code>IServiceCollection</code> to add the service to.</td>
+</tr>
+<tr>
+<td><strong>Returns</strong></td>
+<td>The <code>services</code> instance so that additional calls can be chained.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Remarks.</strong> A single registration is created for <code>TImplementation</code>, and each service type is
+registered as a forward to it, so all service types (and <code>TImplementation</code> itself) resolve to the
+same shared instance.</p>
+<pre><code class="lang-csharp">services.AddSingleton&lt;IFoo, IBar, MyService&gt;();
+
+// All three resolve to the same object:
+var a = provider.GetRequiredService&lt;IFoo&gt;();
+var b = provider.GetRequiredService&lt;IBar&gt;();
+var c = provider.GetRequiredService&lt;MyService&gt;();
+</code></pre>
+<hr>
+<h3 id="addscoped">AddScoped</h3>
+<pre><code class="lang-csharp">public static IServiceCollection AddScoped&lt;TService1, TService2, TImplementation&gt;(
+    this IServiceCollection services)
+    where TService1 : class
+    where TService2 : class
+    where TImplementation : class, TService1, TService2;
+</code></pre>
+<p>Overloads exist for <strong>2, 3, 4, and 5</strong> service types.</p>
+<p>Adds a scoped service of each specified service type with a single implementation instance shared
+<strong>within each scope</strong>.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type parameters</strong></td>
+<td><code>TService1…N</code> — the service types to add. <code>TImplementation</code> — the implementation type; must implement all service types.</td>
+</tr>
+<tr>
+<td><strong>Parameters</strong></td>
+<td><code>services</code> — the <code>IServiceCollection</code> to add the service to.</td>
+</tr>
+<tr>
+<td><strong>Returns</strong></td>
+<td>The <code>services</code> instance so that additional calls can be chained.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Remarks.</strong> All service types resolve to the same instance within a given scope; different scopes
+receive different instances.</p>
+<hr>
+<h3 id="addhostedservice">AddHostedService</h3>
+<pre><code class="lang-csharp">public static IServiceCollection AddHostedService&lt;TService, TImplementation&gt;(
+    this IServiceCollection serviceCollection)
+    where TService : class
+    where TImplementation : class, TService, IHostedService;
+</code></pre>
+<p>Overloads exist for <strong>1, 2, 3, 4, and 5</strong> service types
+(<code>AddHostedService&lt;TService1, …, TService5, TImplementation&gt;</code>); <code>TImplementation</code> must additionally
+implement <code>IHostedService</code>.</p>
+<p>Adds a hosted service of each specified service type with a single shared implementation instance
+that is also registered as the <code>IHostedService</code>.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type parameters</strong></td>
+<td><code>TService1…N</code> — the service types to add. <code>TImplementation</code> — the implementation type; must implement all service types and <code>IHostedService</code>.</td>
+</tr>
+<tr>
+<td><strong>Parameters</strong></td>
+<td><code>serviceCollection</code> — the <code>IServiceCollection</code> to add the service to.</td>
+</tr>
+<tr>
+<td><strong>Returns</strong></td>
+<td>The <code>serviceCollection</code> instance so that additional calls can be chained.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Remarks.</strong> <code>TImplementation</code> is registered as a singleton and as a hosted service. Every service
+type and the hosted service resolve to the same shared instance, allowing other components to
+interact with the running hosted service through its service interfaces.</p>
+<pre><code class="lang-csharp">services.AddHostedService&lt;IWorkerStatus, MyWorker&gt;();
+
+// The running hosted service is the same object as:
+var status = provider.GetRequiredService&lt;IWorkerStatus&gt;();
+</code></pre>
+<hr>
+<h2 id="trimming--aot">Trimming / AOT</h2>
+<p>On .NET 8 and later, the <code>TImplementation</code> type parameter of every overload is annotated with
+<code>[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]</code>, so the
+constructors required by the DI container are preserved under trimming.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="IHostControl.html"><code>IHostControl</code></a></li>
+<li><a href="CycleBackgroundService.html"><code>CycleBackgroundService</code></a></li>
+<li><a href="index.html">API index</a></li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Invex-Games/hosting-extensions/blob/main/api/ServiceCollectionExtensions.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Useful utilities for Microsoft.Extensions.Hosting
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
