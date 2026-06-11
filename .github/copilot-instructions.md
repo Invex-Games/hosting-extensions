@@ -9,8 +9,8 @@ docs for detail.
 
 | Project | Role | Target frameworks |
 |---------|------|-------------------|
-| `Invex.Extensions.Hosting` | The library: `ServiceCollectionExtensions`, `IHostControl` / `HostControl`, `HostControlHostExtensions`, `CycleBackgroundService` | `net10.0;net9.0;net8.0;net48;netstandard2.0` |
-| `Invex.Extensions.Hosting.Tests` | NUnit test suite, including a public API surface snapshot test | `net10.0;net9.0;net8.0` |
+| `Invex.Extensions.Hosting` | The library: `ServiceCollectionExtensions`, `IHostControl` / `HostControl`, `HostControlHostExtensions`, `CycleBackgroundService` | `net10.0;net9.0;net8.0;netstandard2.0` |
+| `Invex.Extensions.Hosting.Tests` | NUnit test suite, including a public API surface snapshot test | `net10.0;net9.0;net8.0;net48` |
 | `_atom` | Atom build definition (`IBuild.cs`) that generates the GitHub Actions workflows | `net10.0` |
 
 Sources live under `src/`, tests under `tests/`, the Atom build definition under `_atom/`, and the
@@ -19,10 +19,11 @@ and `toc.yml`.
 
 ## Build & language specifics
 
-- **.NET 10 SDK** is required (see `global.json`). The library multi-targets down to `net48` and
-  `netstandard2.0` — code must compile on all five targets. Use `#if NET8_0_OR_GREATER` guards for
-  modern-only APIs (e.g. `[DynamicallyAccessedMembers]`), following the existing pattern in
-  `ServiceCollectionExtensions.cs`.
+- **.NET 10 SDK** is required (see `global.json`). The library multi-targets down to
+  `netstandard2.0` (which also serves .NET Framework 4.8 consumers — the test suite runs on
+  `net48` against that build) — code must compile on all four targets. Use `#if NET8_0_OR_GREATER`
+  guards for modern-only APIs (e.g. `[DynamicallyAccessedMembers]`), following the existing
+  pattern in `ServiceCollectionExtensions.cs`.
 - C# `LangVersion` 14, `ImplicitUsings` and `Nullable` enabled, `TreatWarningsAsErrors` on.
 - Global usings live in each project's `_usings.cs` — add shared usings there, not per-file.
 - `GenerateDocumentationFile` is on; `CS1591` is in the repo-wide `NoWarn`, but the convention is
@@ -104,7 +105,8 @@ files alongside your `_atom/` changes; never hand-edit the generated YAML.
 A drift between `_atom/IBuild.cs` and the committed YAML should be treated as a missing
 `atom gen` run.
 
-Notable targets: `TestProjects` runs the test matrix over `net8.0`/`net9.0`/`net10.0`;
+Notable targets: `TestProjects` runs the test matrix over `net8.0`/`net9.0`/`net10.0` on
+Ubuntu and Windows; `TestFxProjects` runs the test suite on `net48` (Windows only);
 `BuildDocs`/`ServeDocs`/`PublishDocs` handle the DocFX site (published to GitHub Pages on stable
 releases); `PushToNuget` publishes the package; `CheckPrForBreakingChanges` inspects
 `tests/**/*.verified.txt` changes on PRs.

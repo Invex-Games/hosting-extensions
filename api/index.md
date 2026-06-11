@@ -3,7 +3,7 @@
 Assembly: `Invex.Extensions.Hosting` · Package: [`Invex.Extensions.Hosting`](https://www.nuget.org/packages/Invex.Extensions.Hosting)
 
 The public API surface consists of exactly four types. It is locked by snapshot tests
-(`PublicApiSurfaceTests` in the test project), so changes here are always deliberate.
+(`PublicApiTests` in the test project), so changes here are always deliberate.
 
 ## Namespaces and types
 

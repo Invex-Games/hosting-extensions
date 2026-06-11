@@ -34,14 +34,19 @@ internal interface IBuild : IWorkflowBuildDefinition,
     string PrereleaseCleanupBelowVersion => GetParam(() => PrereleaseCleanupBelowVersion)!;
 
     static readonly string[] ProjectsToPack = [Projects.Invex_Extensions_Hosting.Name];
-
     static readonly string[] ProjectsToTest = [Projects.Invex_Extensions_Hosting_Tests.Name];
+    static readonly string[] ProjectsToTestFx = [Projects.Invex_Extensions_Hosting_Tests.Name];
 
     static readonly string[] TestFrameworkNames =
     [
         WorkflowLabels.Dotnet.Framework.Net_8_0,
         WorkflowLabels.Dotnet.Framework.Net_9_0,
         WorkflowLabels.Dotnet.Framework.Net_10_0,
+    ];
+
+    static readonly string[] TestPlatforms =
+    [
+        WorkflowLabels.Github.RunsOn.Ubuntu_Latest, WorkflowLabels.Github.RunsOn.Windows_Latest,
     ];
 
     IEnumerable<RootedPath> ICheckPrForBreakingChanges.BreakingChangeFilesToCheck =>
@@ -92,6 +97,30 @@ internal interface IBuild : IWorkflowBuildDefinition,
                     throw new StepFailedException("One or more unit tests failed");
             });
 
+    Target TestFxProjects =>
+        t => t
+            .DescribedAs("Tests the projects")
+            .ProducesArtifacts(ProjectsToTestFx)
+            .Executes(async cancellationToken =>
+            {
+                var exitCode = 0;
+
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (var project in ProjectsToTestFx)
+                    exitCode += await DotnetTestAndStage(project,
+                        new()
+                        {
+                            TestOptions = new()
+                            {
+                                Framework = WorkflowLabels.Dotnet.Framework.Net_4_8,
+                            },
+                        },
+                        cancellationToken);
+
+                if (exitCode != 0)
+                    throw new StepFailedException("One or more unit tests failed");
+            });
+
     Target PushToNuget =>
         t => t
             .DescribedAs("Pushes the packages to Nuget")
@@ -100,6 +129,7 @@ internal interface IBuild : IWorkflowBuildDefinition,
             .ConsumesVariable(nameof(SetupBuildInfo), nameof(BuildId))
             .ConsumesArtifacts(nameof(PackProjects), ProjectsToPack)
             .DependsOn(nameof(TestProjects))
+            .DependsOn(nameof(TestFxProjects))
             .Executes(async cancellationToken =>
             {
                 foreach (var project in ProjectsToPack)
@@ -211,12 +241,24 @@ internal interface IBuild : IWorkflowBuildDefinition,
                         {
                             Values = TestFrameworkNames,
                         },
+                        new(nameof(JobRunsOn))
+                        {
+                            Values = TestPlatforms,
+                        },
                     ],
                     Options =
                     [
                         BuildOptions.Target.SuppressArtifactPublishing,
                         BuildOptions.Steps.SetupDotnet.Dotnet80X(),
                         BuildOptions.Steps.SetupDotnet.Dotnet90X(),
+                        BuildOptions.Github.RunsOn.SetByMatrix,
+                    ],
+                },
+                new(nameof(TestFxProjects))
+                {
+                    Options =
+                    [
+                        BuildOptions.Target.SuppressArtifactPublishing, BuildOptions.Github.RunsOn.Windows_Latest,
                     ],
                 },
                 new(nameof(CheckPrForBreakingChanges))
@@ -271,8 +313,21 @@ internal interface IBuild : IWorkflowBuildDefinition,
                         {
                             Values = TestFrameworkNames,
                         },
+                        new(nameof(JobRunsOn))
+                        {
+                            Values = TestPlatforms,
+                        },
                     ],
-                    Options = [BuildOptions.Steps.SetupDotnet.Dotnet80X(), BuildOptions.Steps.SetupDotnet.Dotnet90X()],
+                    Options =
+                    [
+                        BuildOptions.Steps.SetupDotnet.Dotnet80X(),
+                        BuildOptions.Steps.SetupDotnet.Dotnet90X(),
+                        BuildOptions.Github.RunsOn.SetByMatrix,
+                    ],
+                },
+                new(nameof(TestFxProjects))
+                {
+                    Options = [BuildOptions.Github.RunsOn.Windows_Latest],
                 },
                 new(nameof(PushToNuget))
                 {

@@ -22,7 +22,8 @@ a tiny, dependency-light library that fills three common gaps in the generic hos
 dotnet add package Invex.Extensions.Hosting
 ```
 
-Targets `net10.0`, `net9.0`, `net8.0`, `net48`, and `netstandard2.0`. The only runtime dependency
+Targets `net10.0`, `net9.0`, `net8.0`, and `netstandard2.0` (which covers .NET Framework 4.8 —
+the test suite runs on `net48` against the `netstandard2.0` build). The only runtime dependency
 is `Microsoft.Extensions.Hosting.Abstractions`.
 
 ## Quick start
