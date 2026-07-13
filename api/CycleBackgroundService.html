@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>CycleBackgroundService | Invex.Extensions.Hosting </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="CycleBackgroundService | Invex.Extensions.Hosting ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Invex-Games/hosting-extensions/blob/main/api/CycleBackgroundService.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Invex.Extensions.Hosting">
+            Invex.Extensions.Hosting
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="cyclebackgroundservice">CycleBackgroundService</h1>
+
+<pre><code class="lang-csharp">namespace Invex.Extensions.Hosting.Service;
+
+public abstract class CycleBackgroundService : BackgroundService
+</code></pre>
+<p>A <code>BackgroundService</code> that performs work in fixed-cadence cycles in the background. Derived classes
+specify how often the cycle runs via <a href="#cyclecadencems"><code>CycleCadenceMs</code></a> and implement the
+per-cycle work in <a href="#executecycleasync"><code>ExecuteCycleAsync</code></a>.</p>
+<p>The service starts and stops with the <code>IHost</code>, like any other <code>IHostedService</code>. Register it with
+<code>AddHostedService</code> or one of the multi-interface overloads in
+<a href="ServiceCollectionExtensions.html"><code>ServiceCollectionExtensions</code></a>.</p>
+<blockquote>
+<p>Conceptual guide: <a href="../docs/cycle-background-service.html">Cycle background service</a></p>
+</blockquote>
+<hr>
+<h2 id="scheduling-semantics">Scheduling semantics</h2>
+<ul>
+<li>The cadence is <strong>anchored to a fixed schedule</strong> rather than measured from the end of each cycle:
+each cycle is scheduled <code>CycleCadenceMs</code> milliseconds after the previous <em>scheduled</em> time,
+regardless of how long the cycle's work takes. Timing uses monotonic <code>Stopwatch</code> timestamps.</li>
+<li>If a cycle overruns its time slot, subsequent cycles run <strong>back-to-back without delay</strong> until the
+schedule catches up.</li>
+<li>Cycles <strong>never overlap</strong>; the next cycle does not start until the previous one completes.</li>
+</ul>
+<hr>
+<h2 id="members">Members</h2>
+<h3 id="cyclecadencems">CycleCadenceMs</h3>
+<pre><code class="lang-csharp">protected abstract int CycleCadenceMs { get; }
+</code></pre>
+<p>The time interval in milliseconds at which the service should cycle.</p>
+<p><strong>Remarks.</strong> Read at the start of each cycle, so a derived class may vary it between cycles. The
+interval measures the time between <em>scheduled</em> cycle starts, not the gap between the end of one
+cycle and the start of the next.</p>
+<hr>
+<h3 id="executecycleasync">ExecuteCycleAsync</h3>
+<pre><code class="lang-csharp">protected abstract Task ExecuteCycleAsync(CancellationToken stoppingToken);
+</code></pre>
+<p>Performs the work of the service. Called once per cycle.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Parameters</strong></td>
+<td><code>stoppingToken</code> — triggered when <code>IHostedService.StopAsync</code> is called. Pass it to asynchronous operations within the cycle so the service can shut down promptly.</td>
+</tr>
+<tr>
+<td><strong>Returns</strong></td>
+<td>A <code>Task</code> representing the work of a single cycle.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Remarks.</strong> The next cycle is not started until the returned task completes; cycles never overlap.
+Unhandled exceptions thrown from this method stop the cycle loop and are handled per the host's
+<code>BackgroundServiceExceptionBehavior</code> (by default, stopping the host) — catch and handle (or log)
+exceptions here if the service should continue cycling after a failure.</p>
+<hr>
+<h3 id="executeasync">ExecuteAsync</h3>
+<pre><code class="lang-csharp">protected override Task ExecuteAsync(CancellationToken stoppingToken);
+</code></pre>
+<p>Runs the cycle loop: waits until the next scheduled cycle time, then invokes <code>ExecuteCycleAsync</code>,
+repeating until <code>stoppingToken</code> is signaled. Derived classes should implement <code>ExecuteCycleAsync</code>
+rather than overriding this method.</p>
+<hr>
+<h2 id="example">Example</h2>
+<pre><code class="lang-csharp">public sealed class HeartbeatService : CycleBackgroundService
+{
+    protected override int CycleCadenceMs =&gt; 5_000;
+
+    protected override Task ExecuteCycleAsync(CancellationToken stoppingToken)
+    {
+        Console.WriteLine(&quot;Still alive!&quot;);
+        return Task.CompletedTask;
+    }
+}
+
+// Registration:
+builder.Services.AddHostedService&lt;HeartbeatService&gt;();
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="ServiceCollectionExtensions.html"><code>ServiceCollectionExtensions</code></a> — multi-interface
+<code>AddHostedService</code> overloads</li>
+<li><a href="index.html">API index</a></li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Invex-Games/hosting-extensions/blob/main/api/CycleBackgroundService.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Useful utilities for Microsoft.Extensions.Hosting
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
