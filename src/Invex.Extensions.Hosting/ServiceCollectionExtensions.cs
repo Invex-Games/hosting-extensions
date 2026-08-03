@@ -21,7 +21,7 @@ namespace Invex.Extensions.Hosting;
 ///     <code>
 ///         // MyService implements both IFoo and IBar; both resolve to the same singleton.
 ///         services.AddSingleton&lt;IFoo, IBar, MyService&gt;();
-///
+/// 
 ///         // MyWorker implements IWorkerStatus and IHostedService; the running hosted service
 ///         // instance is also resolvable as IWorkerStatus.
 ///         services.AddHostedService&lt;IWorkerStatus, MyWorker&gt;();
