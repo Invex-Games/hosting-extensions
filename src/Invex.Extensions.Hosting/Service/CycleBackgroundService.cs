@@ -32,7 +32,7 @@ namespace Invex.Extensions.Hosting.Service;
 ///         public sealed class HeartbeatService : CycleBackgroundService
 ///         {
 ///             protected override int CycleCadenceMs =&gt; 5_000;
-/// 
+///
 ///             protected override Task ExecuteCycleAsync(CancellationToken stoppingToken)
 ///             {
 ///                 Console.WriteLine("Still alive!");
