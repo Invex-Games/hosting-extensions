@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>IHostControl | Invex.Extensions.Hosting </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="IHostControl | Invex.Extensions.Hosting ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Invex-Games/hosting-extensions/blob/main/api/IHostControl.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Invex.Extensions.Hosting">
+            Invex.Extensions.Hosting
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="ihostcontrol">IHostControl</h1>
+
+<pre><code class="lang-csharp">namespace Invex.Extensions.Hosting.Control;
+
+public interface IHostControl : IHostApplicationLifetime
+</code></pre>
+<p>Provides control over the host application lifetime, extending <code>IHostApplicationLifetime</code> with the
+ability to stop the application with a specific exit code.</p>
+<p>Register this service by calling
+<a href="HostControlHostExtensions.html"><code>AddHostControl()</code></a>, then inject it in place of
+<code>IHostApplicationLifetime</code> wherever the extra control is needed. All members inherited from
+<code>IHostApplicationLifetime</code> delegate to the host's lifetime implementation, so existing lifetime
+behavior is unchanged.</p>
+<blockquote>
+<p>Conceptual guide: <a href="../docs/host-control.html">Host control</a></p>
+</blockquote>
+<hr>
+<h2 id="methods">Methods</h2>
+<h3 id="stopapplicationint">StopApplication(int)</h3>
+<pre><code class="lang-csharp">void StopApplication(int exitCode = 0);
+</code></pre>
+<p>Requests termination of the current application and sets the process exit code.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Parameters</strong></td>
+<td><code>exitCode</code> — the exit code returned to the operating system when the application exits. By convention, <code>0</code> indicates success and any non-zero value indicates failure.</td>
+</tr>
+<tr>
+<td><strong>Returns</strong></td>
+<td><code>void</code> — returns immediately; does not wait for shutdown to complete.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Remarks.</strong> Sets <code>Environment.ExitCode</code> to <code>exitCode</code> and then calls
+<code>IHostApplicationLifetime.StopApplication()</code> to begin a graceful shutdown. Hosted services are
+stopped via <code>StopAsync</code>, and the <code>ApplicationStopping</code>/<code>ApplicationStopped</code> tokens fire as usual.</p>
+<hr>
+<h2 id="inherited-members-from-ihostapplicationlifetime">Inherited members (from <code>IHostApplicationLifetime</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CancellationToken ApplicationStarted</code></td>
+<td>Triggered when the host has fully started.</td>
+</tr>
+<tr>
+<td><code>CancellationToken ApplicationStopping</code></td>
+<td>Triggered when the host is beginning a graceful shutdown.</td>
+</tr>
+<tr>
+<td><code>CancellationToken ApplicationStopped</code></td>
+<td>Triggered when the host has completed a graceful shutdown.</td>
+</tr>
+<tr>
+<td><code>void StopApplication()</code></td>
+<td>Requests termination without changing the exit code.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="example">Example</h2>
+<pre><code class="lang-csharp">public sealed class Worker(IHostControl hostControl)
+{
+    public void FailFast() =&gt; hostControl.StopApplication(exitCode: 1);
+}
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="HostControlHostExtensions.html"><code>HostControlHostExtensions.AddHostControl</code></a></li>
+<li><a href="index.html">API index</a></li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Invex-Games/hosting-extensions/blob/main/api/IHostControl.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Useful utilities for Microsoft.Extensions.Hosting
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

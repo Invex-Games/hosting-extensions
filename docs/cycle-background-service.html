@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Cycle Background Service | Invex.Extensions.Hosting </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Cycle Background Service | Invex.Extensions.Hosting ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Invex-Games/hosting-extensions/blob/main/docs/cycle-background-service.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Invex.Extensions.Hosting">
+            Invex.Extensions.Hosting
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="cycle-background-service">Cycle Background Service</h1>
+
+<p><code>CycleBackgroundService</code> (namespace <code>Invex.Extensions.Hosting.Service</code>) is an abstract
+<code>BackgroundService</code> for periodic work. You supply the cadence and the per-cycle work; it supplies a
+<strong>fixed, drift-free schedule</strong> and clean shutdown handling.</p>
+<h2 id="the-problem">The problem</h2>
+<p>The naive periodic-worker loop drifts:</p>
+<pre><code class="lang-csharp">// ❌ Actual period = work duration + delay, so cycles slip later and later.
+while (!stoppingToken.IsCancellationRequested)
+{
+    await DoWorkAsync(stoppingToken);
+    await Task.Delay(5_000, stoppingToken);
+}
+</code></pre>
+<p>If each cycle's work takes 800 ms, this loop actually runs every ~5.8 seconds — and the error
+accumulates. Getting fixed-rate scheduling, cancellation, and overrun handling right is fiddly
+boilerplate that ends up copied between services.</p>
+<h2 id="the-solution">The solution</h2>
+<pre><code class="lang-csharp">using Invex.Extensions.Hosting.Service;
+
+public sealed class MetricsFlusher(IMetricsBuffer buffer) : CycleBackgroundService
+{
+    protected override int CycleCadenceMs =&gt; 10_000; // every 10 seconds, on schedule
+
+    protected override async Task ExecuteCycleAsync(CancellationToken stoppingToken) =&gt;
+        await buffer.FlushAsync(stoppingToken);
+}
+</code></pre>
+<p>Register it like any hosted service — or with a
+<a href="multi-interface-registration.html">multi-interface overload</a> if other components need to talk to it:</p>
+<pre><code class="lang-csharp">builder.Services.AddHostedService&lt;MetricsFlusher&gt;();
+// or
+builder.Services.AddHostedService&lt;IMetricsFlusher, MetricsFlusher&gt;();
+</code></pre>
+<h2 id="scheduling-semantics">Scheduling semantics</h2>
+<p>The cadence is <strong>anchored to a fixed schedule</strong>, not measured from the end of each cycle. Each
+cycle is scheduled <code>CycleCadenceMs</code> milliseconds after the <em>previous scheduled time</em>, using
+<code>Stopwatch</code> timestamps (monotonic — immune to wall-clock changes).</p>
+<pre><code class="lang-text">cadence = 1000 ms, work = 200 ms
+
+scheduled:   0        1000        2000        3000
+actual:      [work]   [work]      [work]      [work]
+             0-200    1000-1200   2000-2200   3000-3200   ← no drift
+</code></pre>
+<h3 id="overrun-and-catch-up">Overrun and catch-up</h3>
+<p>If a cycle takes longer than the cadence, subsequent cycles run <strong>back-to-back without delay</strong>
+until the schedule catches up:</p>
+<pre><code class="lang-text">cadence = 1000 ms; cycle 1 takes 2500 ms
+
+scheduled:   0           1000   2000   3000
+actual:      [cycle 1.........] [c2]   [c3]   [cycle 4]
+             0--------2500      2500   2700   3000        ← catches up, then resumes cadence
+</code></pre>
+<p>Cycles <strong>never overlap</strong> — the next cycle does not begin until the previous one completes. If your
+work can persistently exceed the cadence and catch-up bursts are undesirable, throttle inside
+<code>ExecuteCycleAsync</code>.</p>
+<h2 id="members-to-implement">Members to implement</h2>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int CycleCadenceMs { get; }</code></td>
+<td>Milliseconds between <em>scheduled</em> cycle starts. Read at the start of each cycle, so it may vary between cycles.</td>
+</tr>
+<tr>
+<td><code>Task ExecuteCycleAsync(CancellationToken)</code></td>
+<td>The per-cycle work. Pass the token to async operations so shutdown is prompt.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="shutdown-behavior">Shutdown behavior</h2>
+<ul>
+<li>When the host stops, the in-flight <code>Task.Delay</code> is canceled immediately and the loop exits —
+the service never waits out the remainder of a cycle gap.</li>
+<li>If the token fires <em>during</em> <code>ExecuteCycleAsync</code>, your implementation is responsible for
+honoring it (as with any <code>BackgroundService</code>).</li>
+</ul>
+<h2 id="error-handling">Error handling</h2>
+<p>Any unhandled exception thrown from <code>ExecuteCycleAsync</code> stops the cycle loop, and the host handles
+it per <code>HostOptions.BackgroundServiceExceptionBehavior</code> (default on modern .NET: <strong>stop the host</strong>).
+If the service should survive failures and keep cycling, catch inside the cycle:</p>
+<pre><code class="lang-csharp">protected override async Task ExecuteCycleAsync(CancellationToken stoppingToken)
+{
+    try
+    {
+        await DoWorkAsync(stoppingToken);
+    }
+    catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+    {
+        throw; // let shutdown proceed
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, &quot;Cycle failed; will retry next cycle.&quot;);
+    }
+}
+</code></pre>
+<blockquote>
+<p>Tip: pair with <a href="host-control.html"><code>IHostControl</code></a> to stop the application with a failure exit
+code once errors exceed a threshold.</p>
+</blockquote>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../api/CycleBackgroundService.html">API reference: CycleBackgroundService</a></li>
+<li><a href="multi-interface-registration.html">Multi-interface registration</a></li>
+<li><a href="host-control.html">Host control</a></li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Invex-Games/hosting-extensions/blob/main/docs/cycle-background-service.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Useful utilities for Microsoft.Extensions.Hosting
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

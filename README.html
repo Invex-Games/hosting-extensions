@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Invex.Extensions.Hosting | Invex.Extensions.Hosting </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Invex.Extensions.Hosting | Invex.Extensions.Hosting ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Invex-Games/hosting-extensions/blob/main/README.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="logo.svg" alt="Invex.Extensions.Hosting">
+            Invex.Extensions.Hosting
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="invexextensionshosting">Invex.Extensions.Hosting</h1>
+
+<p><a href="LICENSE.txt"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a></p>
+<p>Small, dependency-light utilities for
+<a href="https://learn.microsoft.com/dotnet/core/extensions/generic-host"><code>Microsoft.Extensions.Hosting</code></a>:</p>
+<ul>
+<li>Register one implementation under multiple dependency-injection service types without creating
+duplicate instances.</li>
+<li>Stop a generic host gracefully while setting the process exit code.</li>
+<li>Run background work on a fixed, monotonic cadence without scheduling drift.</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<pre><code class="lang-powershell">dotnet add package Invex.Extensions.Hosting
+</code></pre>
+<p>The package targets .NET 10, .NET 9, .NET 8, and .NET Standard 2.0. The .NET Standard build can
+be consumed by compatible runtimes, including .NET Framework 4.8. The only runtime dependency is
+<code>Microsoft.Extensions.Hosting.Abstractions</code>.</p>
+<h2 id="quick-start">Quick start</h2>
+<pre><code class="lang-csharp">using Invex.Extensions.Hosting;
+using Invex.Extensions.Hosting.Control;
+using Invex.Extensions.Hosting.Service;
+using Microsoft.Extensions.Hosting;
+
+var builder = Host.CreateApplicationBuilder(args);
+
+builder.Services.AddHostControl();
+builder.Services.AddHostedService&lt;IWorkerStatus, Worker&gt;();
+
+await builder.Build().RunAsync();
+
+public interface IWorkerStatus
+{
+    bool IsBusy { get; }
+}
+
+public sealed class Worker(IHostControl hostControl) : CycleBackgroundService, IWorkerStatus
+{
+    public bool IsBusy { get; private set; }
+
+    protected override int CycleCadenceMs =&gt; 5_000;
+
+    protected override async Task ExecuteCycleAsync(CancellationToken stoppingToken)
+    {
+        IsBusy = true;
+
+        try
+        {
+            await DoWorkAsync(stoppingToken);
+        }
+        catch (FatalException)
+        {
+            hostControl.StopApplication(exitCode: 1);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    private static Task DoWorkAsync(CancellationToken stoppingToken) =&gt; Task.CompletedTask;
+}
+</code></pre>
+<p><code>Worker</code> is registered once. It is both the running <code>IHostedService</code> and the instance returned when
+another component injects <code>IWorkerStatus</code>.</p>
+<h2 id="multi-interface-dependency-injection">Multi-interface dependency injection</h2>
+<p><code>ServiceCollectionExtensions</code> provides <code>AddSingleton</code> and <code>AddScoped</code> overloads for two to five
+service types:</p>
+<pre><code class="lang-csharp">services.AddSingleton&lt;IFoo, IBar, MyService&gt;();
+services.AddScoped&lt;IRequestState, IRequestMetrics, RequestState&gt;();
+</code></pre>
+<p>The implementation type is registered once, and each listed service type forwards to that
+registration. Resolving any listed service type or the implementation type returns the same object.
+Singletons share one object for the application lifetime; scoped registrations share one object per
+scope. Registrations are appended like the standard <code>AddSingleton</code> and <code>AddScoped</code> methods; they
+are not conditional <code>TryAdd</code> registrations.</p>
+<p>The <code>AddHostedService</code> overloads support one to five service types:</p>
+<pre><code class="lang-csharp">services.AddHostedService&lt;IQueueMonitor, QueueWorker&gt;();
+services.AddHostedService&lt;IStatus, IAdminOperations, Worker&gt;();
+</code></pre>
+<p>They register the implementation as a singleton, expose it through each listed service type, and
+also register that same instance as <code>IHostedService</code>. This is useful when application components
+need to observe or control a running hosted service.</p>
+<h2 id="host-control-and-exit-codes">Host control and exit codes</h2>
+<p>Register <code>IHostControl</code> once with <code>AddHostControl()</code>:</p>
+<pre><code class="lang-csharp">builder.Services.AddHostControl();
+
+public sealed class FailureHandler(IHostControl hostControl)
+{
+    public void StopForFailure() =&gt; hostControl.StopApplication(exitCode: 2);
+}
+</code></pre>
+<p><code>IHostControl</code> inherits <code>IHostApplicationLifetime</code>, so its lifetime tokens and parameterless
+<code>StopApplication()</code> behave like the framework service. <code>StopApplication(exitCode)</code> first assigns
+<code>Environment.ExitCode</code>, then requests graceful shutdown, and returns immediately; it does not wait
+for hosted services to finish stopping. Exit code <code>0</code> means success by convention, while a
+non-zero value conventionally indicates failure. If it is called more than once, the last assigned
+exit code wins.</p>
+<h2 id="fixed-cadence-background-services">Fixed-cadence background services</h2>
+<p>Derive from <code>CycleBackgroundService</code> and implement two members:</p>
+<pre><code class="lang-csharp">public sealed class MetricsFlusher(IMetricsBuffer buffer) : CycleBackgroundService
+{
+    protected override int CycleCadenceMs =&gt; 10_000;
+
+    protected override Task ExecuteCycleAsync(CancellationToken stoppingToken) =&gt;
+        buffer.FlushAsync(stoppingToken);
+}
+</code></pre>
+<p>The cadence is anchored to monotonic <code>Stopwatch</code> timestamps, so cycle duration does not accumulate
+drift. Cycles never overlap. If work overruns its scheduled slot, overdue cycles run back-to-back
+until the schedule catches up. The cadence is read once at the start of each cycle, so derived
+classes may change it between cycles.</p>
+<p>Cancellation during the inter-cycle delay exits promptly without starting another cycle. Cancellation
+during <code>ExecuteCycleAsync</code> must be honored by the derived implementation. An unhandled cycle
+exception stops the loop and is handled according to the host's
+<code>HostOptions.BackgroundServiceExceptionBehavior</code>; catch and handle failures inside the cycle if the
+service should continue.</p>
+<h2 id="documentation">Documentation</h2>
+<table>
+<thead>
+<tr>
+<th>Guide</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="docs/index.html">Documentation home</a></td>
+<td>Overview and design principles</td>
+</tr>
+<tr>
+<td><a href="docs/getting-started.html">Getting started</a></td>
+<td>Installation and a guided example</td>
+</tr>
+<tr>
+<td><a href="docs/multi-interface-registration.html">Multi-interface registration</a></td>
+<td>Shared-instance DI registrations</td>
+</tr>
+<tr>
+<td><a href="docs/host-control.html">Host control</a></td>
+<td>Graceful shutdown and exit-code behavior</td>
+</tr>
+<tr>
+<td><a href="docs/cycle-background-service.html">Cycle background service</a></td>
+<td>Fixed-cadence scheduling and errors</td>
+</tr>
+<tr>
+<td><a href="api/index.html">API reference</a></td>
+<td>Complete public API</td>
+</tr>
+</tbody>
+</table>
+<h2 id="license">License</h2>
+<p><a href="LICENSE.txt">MIT</a> © Declan Smith</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Invex-Games/hosting-extensions/blob/main/README.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Useful utilities for Microsoft.Extensions.Hosting
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
