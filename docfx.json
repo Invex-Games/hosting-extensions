@@ -1,18 +1,34 @@
 {
   "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "src/**/*.csproj"
+          ]
+        }
+      ],
+      "dest": "api",
+      "properties": {
+        "TargetFramework": "net10.0"
+      },
+      "filter": "docs/filterConfig.yml"
+    }
+  ],
   "build": {
     "content": [
       {
         "files": [
           "toc.yml",
-          "index.md",
-          "README.md"
+          "index.md"
         ]
       },
       {
         "files": [
           "api/toc.yml",
-          "api/**/*.md"
+          "api/**.yml",
+          "api/index.md"
         ]
       },
       {
@@ -31,15 +47,13 @@
       }
     ],
     "output": "_site",
-    "globalMetadataFiles": [],
-    "fileMetadataFiles": [],
     "globalMetadata": {
       "_appTitle": "Invex.Extensions.Hosting",
       "_appName": "Invex.Extensions.Hosting",
-      "_appFooter": "Useful utilities for Microsoft.Extensions.Hosting",
+      "_appLogoPath": "images/icon.png",
+      "_appFooter": "Invex.Extensions.Hosting · MIT License · Invex Games",
       "_enableSearch": true,
       "_disableContribution": false,
-      "_disableToc": false,
       "_gitContribute": {
         "repo": "https://github.com/Invex-Games/hosting-extensions",
         "branch": "main"
@@ -49,10 +63,8 @@
       "default",
       "modern"
     ],
-    "postProcessors": [],
-    "keepFileLink": false,
-    "disableGitFeatures": false
+    "theme": [
+      "docfx-theme"
+    ]
   }
 }
-
-
