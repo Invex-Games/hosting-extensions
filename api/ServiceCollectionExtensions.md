@@ -121,7 +121,7 @@ var status = provider.GetRequiredService<IWorkerStatus>();
 
 ## Trimming / AOT
 
-On .NET 8 and later, the `TImplementation` type parameter of every overload is annotated with
+In the `net10.0` build, the `TImplementation` type parameter of every overload is annotated with
 `[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]`, so the
 constructors required by the DI container are preserved under trimming.
 
