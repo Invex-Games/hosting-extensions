@@ -9,16 +9,21 @@ namespace Invex.Extensions.Hosting.Service;
 ///     <para>
 ///         The service starts and stops with the <see cref="Microsoft.Extensions.Hosting.IHost" />, like any other
 ///         <see cref="Microsoft.Extensions.Hosting.IHostedService" />. Register it with
-///         <see
-///             cref="ServiceCollectionServiceExtensions" />
+///         <see cref="ServiceCollectionHostedServiceExtensions" />
 ///         <c>.AddHostedService</c> or one of the multi-interface overloads in
 ///         <see cref="Invex.Extensions.Hosting.ServiceCollectionExtensions" />.
 ///     </para>
 ///     <para>
 ///         The cadence is anchored to a fixed schedule rather than measured from the end of each cycle: each cycle is
 ///         scheduled <see cref="CycleCadenceMs" /> milliseconds after the previous scheduled time, regardless of how
-///         long the cycle's work takes. If a cycle overruns its time slot, subsequent cycles run back-to-back without
-///         delay until the schedule catches up.
+///         long the cycle's work takes. Timing uses monotonic <see cref="Stopwatch" /> timestamps, so it is unaffected
+///         by wall-clock changes and cycle duration does not accumulate drift. If a cycle overruns its time slot,
+///         subsequent cycles run back-to-back without delay until the schedule catches up.
+///     </para>
+///     <para>
+///         When the stopping token is signaled during the wait between cycles, the wait ends immediately and the loop
+///         exits without starting another cycle. Cancellation that occurs while <see cref="ExecuteCycleAsync" /> is
+///         running must be honored by the derived implementation.
 ///     </para>
 ///     <para>
 ///         Cycles never overlap; the next cycle does not start until the previous one completes. Any unhandled
@@ -39,6 +44,9 @@ namespace Invex.Extensions.Hosting.Service;
 ///                 return Task.CompletedTask;
 ///             }
 ///         }
+///
+///         // Registration:
+///         builder.Services.AddHostedService&lt;HeartbeatService&gt;();
 ///     </code>
 /// </example>
 [PublicAPI]
@@ -62,6 +70,9 @@ public abstract class CycleBackgroundService : BackgroundService
     /// </summary>
     /// <param name="stoppingToken">Triggered when the host is shutting down or the service is stopped.</param>
     /// <returns>A <see cref="System.Threading.Tasks.Task" /> that represents the lifetime of the cycle loop.</returns>
+    /// <remarks>
+    ///     Derived classes should implement <see cref="ExecuteCycleAsync" /> rather than overriding this method.
+    /// </remarks>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
@@ -105,8 +116,9 @@ public abstract class CycleBackgroundService : BackgroundService
     /// <returns>A <see cref="System.Threading.Tasks.Task" /> that represents the work of a single cycle.</returns>
     /// <remarks>
     ///     The next cycle is not started until the returned task completes; cycles never overlap.
-    ///     Unhandled exceptions thrown from this method stop the cycle loop — catch and handle (or log) exceptions
-    ///     here if the service should continue cycling after a failure.
+    ///     Unhandled exceptions thrown from this method stop the cycle loop and are handled according to the host's
+    ///     <c>HostOptions.BackgroundServiceExceptionBehavior</c> (by default, stopping the host) — catch and handle
+    ///     (or log) exceptions here if the service should continue cycling after a failure.
     /// </remarks>
     protected abstract Task ExecuteCycleAsync(CancellationToken stoppingToken);
 }
