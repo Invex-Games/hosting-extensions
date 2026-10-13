@@ -16,8 +16,8 @@ Small, dependency-light utilities for
 dotnet add package Invex.Extensions.Hosting
 ```
 
-The package targets .NET 10, .NET 9, .NET 8, and .NET Standard 2.0. The .NET Standard build can
-be consumed by compatible runtimes, including .NET Framework 4.8. The only runtime dependency is
+The package targets .NET 10 and .NET Standard 2.0. The .NET Standard build can be consumed by
+compatible runtimes, including .NET Framework 4.8 and older .NET versions. The only runtime dependency is
 `Microsoft.Extensions.Hosting.Abstractions`.
 
 ## Quick start

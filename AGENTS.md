@@ -35,8 +35,8 @@ dotnet test Invex.Extensions.Hosting.slnx
 docfx docfx.json
 ```
 
-The test project targets `net10.0`, `net9.0`, `net8.0`, and `net48`. The library targets
-`net10.0`, `net9.0`, `net8.0`, and `netstandard2.0`; code must compile for all four library
+The test project targets `net10.0` and `net48`. The library targets
+`net10.0` and `netstandard2.0`; code must compile for both library
 targets. Use `#if NET8_0_OR_GREATER` for APIs unavailable on older targets, following the existing
 pattern in `ServiceCollectionExtensions.cs`.
 
@@ -99,7 +99,7 @@ dotnet run --project _atom -- gen
 ```
 
 Commit regenerated files with the Atom change. The workflows validate and test the project on
-`net8.0`, `net9.0`, `net10.0`, and `net48`; package and documentation publishing occurs in the
+`net10.0` and `net48`; package and documentation publishing occurs in the
 Build workflow. Notable Atom targets include `PackProjects`, `TestProjects`, `TestFxProjects`,
 `BuildDocs`, `PublishDocs`, and `CheckPrForBreakingChanges`.
 
