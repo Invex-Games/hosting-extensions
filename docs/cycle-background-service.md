@@ -113,12 +113,13 @@ protected override async Task ExecuteCycleAsync(CancellationToken stoppingToken)
 }
 ```
 
-> Tip: pair with [`IHostControl`](host-control.md) to stop the application with a failure exit
+> [!TIP]
+> Pair with [`IHostControl`](host-control.md) to stop the application with a failure exit
 > code once errors exceed a threshold.
 
 ## See also
 
-- [API reference: CycleBackgroundService](../api/CycleBackgroundService.md)
-- [Multi-interface registration](multi-interface-registration.md)
-- [Host control](host-control.md)
+- [Multi-Interface Registration](multi-interface-registration.md)
+- [Host Control](host-control.md)
+- <xref:Invex.Extensions.Hosting.Service.CycleBackgroundService>
 
