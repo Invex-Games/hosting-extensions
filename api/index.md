@@ -1,37 +1,32 @@
-# API Reference — Invex.Extensions.Hosting
+# API Reference
 
-Assembly: `Invex.Extensions.Hosting` · Package: [`Invex.Extensions.Hosting`](https://www.nuget.org/packages/Invex.Extensions.Hosting)
+The `Invex.Extensions.Hosting` package exposes four public types; this reference is generated from their XML
+documentation, and the public surface is locked by snapshot tests (`PublicApiTests`).
 
-The public API surface consists of exactly four types. It is locked by snapshot tests
-(`PublicApiTests` in the test project), so changes here are always deliberate.
-
-## Namespaces and types
-
-### `Invex.Extensions.Hosting`
+## Invex.Extensions.Hosting
 
 | Type | Kind | Description |
 |---|---|---|
-| [`ServiceCollectionExtensions`](ServiceCollectionExtensions.md) | static class | `AddSingleton`/`AddScoped`/`AddHostedService` overloads that register one implementation under multiple service types sharing a single instance. |
+| [`ServiceCollectionExtensions`](xref:Invex.Extensions.Hosting.ServiceCollectionExtensions) | static class | `AddSingleton`, `AddScoped` and `AddHostedService` overloads that register one implementation under several service types sharing a single instance. |
 
-### `Invex.Extensions.Hosting.Control`
-
-| Type | Kind | Description |
-|---|---|---|
-| [`IHostControl`](IHostControl.md) | interface | Extends `IHostApplicationLifetime` with `StopApplication(int exitCode)`. |
-| [`HostControlHostExtensions`](HostControlHostExtensions.md) | static class | `AddHostControl()` registration extension. |
-
-### `Invex.Extensions.Hosting.Service`
+## Invex.Extensions.Hosting.Control
 
 | Type | Kind | Description |
 |---|---|---|
-| [`CycleBackgroundService`](CycleBackgroundService.md) | abstract class | `BackgroundService` base class that runs work on a fixed, drift-free cadence. |
+| [`IHostControl`](xref:Invex.Extensions.Hosting.Control.IHostControl) | interface | Extends `IHostApplicationLifetime` with `StopApplication(int exitCode)`. |
+| [`HostControlHostExtensions`](xref:Invex.Extensions.Hosting.Control.HostControlHostExtensions) | static class | `AddHostControl()` registration extension for `IHostControl`. |
 
-## Conceptual documentation
+## Invex.Extensions.Hosting.Service
 
-For task-oriented guides, see the [`docs/`](../docs/index.md) directory:
+| Type | Kind | Description |
+|---|---|---|
+| [`CycleBackgroundService`](xref:Invex.Extensions.Hosting.Service.CycleBackgroundService) | abstract class | `BackgroundService` base class that runs work on a fixed, drift-free cadence. |
 
-- [Getting started](../docs/getting-started.md)
-- [Multi-interface registration](../docs/multi-interface-registration.md)
-- [Host control](../docs/host-control.md)
-- [Cycle background service](../docs/cycle-background-service.md)
+## Typical flow
 
+```csharp
+builder.Services.AddHostControl();                              // IHostControl
+builder.Services.AddHostedService<IWorkerStatus, Worker>();     // Worker : CycleBackgroundService, IWorkerStatus
+```
+
+For task-oriented guides, start with the [Introduction](../docs/introduction.md).

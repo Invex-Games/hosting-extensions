@@ -9,18 +9,36 @@ namespace Invex.Extensions.Hosting;
 ///         The standard <c>AddSingleton</c>/<c>AddScoped</c> methods create an independent instance per service type
 ///         when the same implementation is registered multiple times. The overloads in this class instead register the
 ///         implementation type once and forward each service type to it, so resolving any of the service types yields
-///         the same instance (per scope, for scoped registrations).
+///         the same instance (per scope, for scoped registrations). <c>TImplementation</c> itself is
+///         also resolvable and returns that same instance. Singleton registrations share one instance for the
+///         application lifetime; scoped registrations share one instance within each scope, and different scopes
+///         receive different instances.
 ///     </para>
 ///     <para>
 ///         The <c>AddHostedService</c> overloads additionally register the implementation as an
 ///         <see cref="IHostedService" />, allowing other components to interact with the running hosted service
 ///         through its service interfaces.
 ///     </para>
+///     <para>
+///         Registrations are appended unconditionally, like the framework's own <c>AddSingleton</c> and
+///         <c>AddScoped</c> methods; they are not conditional <c>TryAdd</c> registrations.
+///     </para>
+///     <para>
+///         On .NET 8 and later, the <c>TImplementation</c> type parameter of every overload is
+///         annotated with <c>[DynamicallyAccessedMembers]</c>
+///         (<c>DynamicallyAccessedMemberTypes.PublicConstructors</c>), so the constructors required by the
+///         dependency injection container are preserved under trimming.
+///     </para>
 /// </remarks>
 /// <example>
 ///     <code>
 ///         // MyService implements both IFoo and IBar; both resolve to the same singleton.
 ///         services.AddSingleton&lt;IFoo, IBar, MyService&gt;();
+///
+///         // All three resolve to the same object:
+///         var foo = provider.GetRequiredService&lt;IFoo&gt;();
+///         var bar = provider.GetRequiredService&lt;IBar&gt;();
+///         var service = provider.GetRequiredService&lt;MyService&gt;();
 /// 
 ///         // MyWorker implements IWorkerStatus and IHostedService; the running hosted service
 ///         // instance is also resolvable as IWorkerStatus.

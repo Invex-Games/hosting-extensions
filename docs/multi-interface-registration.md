@@ -88,7 +88,7 @@ app.MapGet("/queue/depth", (IQueueMonitor monitor) => monitor.Depth);
 
 ## See also
 
-- [API reference: ServiceCollectionExtensions](../api/ServiceCollectionExtensions.md)
-- [Cycle background service](cycle-background-service.md) — a natural pairing with
+- [Cycle Background Service](cycle-background-service.md): a natural pairing with the
   `AddHostedService` overloads.
+- <xref:Invex.Extensions.Hosting.ServiceCollectionExtensions>
 

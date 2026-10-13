@@ -1,14 +1,20 @@
 # Invex.Extensions.Hosting
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
+[![Build](https://github.com/Invex-Games/hosting-extensions/actions/workflows/Build.yml/badge.svg)](https://github.com/Invex-Games/hosting-extensions/actions/workflows/Build.yml)
+[![NuGet](https://img.shields.io/nuget/v/Invex.Extensions.Hosting.svg)](https://www.nuget.org/packages/Invex.Extensions.Hosting)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/Invex-Games/hosting-extensions/blob/main/LICENSE.txt)
+[![.NET](https://img.shields.io/badge/.NET-8.0%20%7C%209.0%20%7C%2010.0%20%7C%20Standard%202.0-512BD4.svg)](https://dotnet.microsoft.com/)
 
 Small, dependency-light utilities for
-[`Microsoft.Extensions.Hosting`](https://learn.microsoft.com/dotnet/core/extensions/generic-host):
+[`Microsoft.Extensions.Hosting`](https://learn.microsoft.com/dotnet/core/extensions/generic-host) that remove
+the boilerplate around shared-instance registrations, exit codes on shutdown and fixed-rate background work.
 
-- Register one implementation under multiple dependency-injection service types without creating
-  duplicate instances.
-- Stop a generic host gracefully while setting the process exit code.
-- Run background work on a fixed, monotonic cadence without scheduling drift.
+## Features
+
+- **Multi-interface registration.** Register one implementation under several service types without creating duplicate instances.
+- **Hosted services you can talk to.** `AddHostedService` overloads make the running hosted service resolvable through its own interfaces.
+- **Host control with exit codes.** Stop the generic host gracefully while setting the process exit code.
+- **Fixed-cadence background services.** Run background work on a monotonic schedule that never drifts and never overlaps.
 
 ## Installation
 
@@ -66,41 +72,33 @@ public sealed class Worker(IHostControl hostControl) : CycleBackgroundService, I
 
     private static Task DoWorkAsync(CancellationToken stoppingToken) => Task.CompletedTask;
 }
+
+public sealed class FatalException : Exception;
 ```
 
 `Worker` is registered once. It is both the running `IHostedService` and the instance returned when
 another component injects `IWorkerStatus`.
+## Usage
 
-## Multi-interface dependency injection
+### Register one implementation under several service types
 
 `ServiceCollectionExtensions` provides `AddSingleton` and `AddScoped` overloads for two to five
-service types:
+service types, and `AddHostedService` overloads for one to five:
 
 ```csharp
 services.AddSingleton<IFoo, IBar, MyService>();
 services.AddScoped<IRequestState, IRequestMetrics, RequestState>();
-```
-
-The implementation type is registered once, and each listed service type forwards to that
-registration. Resolving any listed service type or the implementation type returns the same object.
-Singletons share one object for the application lifetime; scoped registrations share one object per
-scope. Registrations are appended like the standard `AddSingleton` and `AddScoped` methods; they
-are not conditional `TryAdd` registrations.
-
-The `AddHostedService` overloads support one to five service types:
-
-```csharp
 services.AddHostedService<IQueueMonitor, QueueWorker>();
-services.AddHostedService<IStatus, IAdminOperations, Worker>();
 ```
 
-They register the implementation as a singleton, expose it through each listed service type, and
-also register that same instance as `IHostedService`. This is useful when application components
-need to observe or control a running hosted service.
+The implementation type is registered once and each listed service type forwards to it, so resolving any of
+them returns the same object (per scope for scoped registrations). The hosted-service overloads also register
+that instance as `IHostedService`. See [Multi-Interface Registration](https://github.com/Invex-Games/hosting-extensions/blob/main/docs/multi-interface-registration.md).
 
-## Host control and exit codes
+### Stop the host with an exit code
 
-Register `IHostControl` once with `AddHostControl()`:
+Register `IHostControl` once with `AddHostControl()`, then inject it wherever you would use
+`IHostApplicationLifetime`:
 
 ```csharp
 builder.Services.AddHostControl();
@@ -111,14 +109,10 @@ public sealed class FailureHandler(IHostControl hostControl)
 }
 ```
 
-`IHostControl` inherits `IHostApplicationLifetime`, so its lifetime tokens and parameterless
-`StopApplication()` behave like the framework service. `StopApplication(exitCode)` first assigns
-`Environment.ExitCode`, then requests graceful shutdown, and returns immediately; it does not wait
-for hosted services to finish stopping. Exit code `0` means success by convention, while a
-non-zero value conventionally indicates failure. If it is called more than once, the last assigned
-exit code wins.
+`StopApplication(exitCode)` assigns `Environment.ExitCode`, requests graceful shutdown and returns
+immediately. See [Host Control](https://github.com/Invex-Games/hosting-extensions/blob/main/docs/host-control.md).
 
-## Fixed-cadence background services
+### Run work on a fixed cadence
 
 Derive from `CycleBackgroundService` and implement two members:
 
@@ -132,28 +126,38 @@ public sealed class MetricsFlusher(IMetricsBuffer buffer) : CycleBackgroundServi
 }
 ```
 
-The cadence is anchored to monotonic `Stopwatch` timestamps, so cycle duration does not accumulate
-drift. Cycles never overlap. If work overruns its scheduled slot, overdue cycles run back-to-back
-until the schedule catches up. The cadence is read once at the start of each cycle, so derived
-classes may change it between cycles.
-
-Cancellation during the inter-cycle delay exits promptly without starting another cycle. Cancellation
-during `ExecuteCycleAsync` must be honored by the derived implementation. An unhandled cycle
-exception stops the loop and is handled according to the host's
-`HostOptions.BackgroundServiceExceptionBehavior`; catch and handle failures inside the cycle if the
-service should continue.
+Cycles are scheduled from the previous *scheduled* start, never overlap, and catch up back-to-back after an
+overrun. See [Cycle Background Service](https://github.com/Invex-Games/hosting-extensions/blob/main/docs/cycle-background-service.md).
 
 ## Documentation
 
+Full documentation: [https://invex-games.github.io/hosting-extensions/](https://invex-games.github.io/hosting-extensions/)
+
 | Guide | Contents |
 |---|---|
-| [Documentation home](docs/index.md) | Overview and design principles |
-| [Getting started](docs/getting-started.md) | Installation and a guided example |
-| [Multi-interface registration](docs/multi-interface-registration.md) | Shared-instance DI registrations |
-| [Host control](docs/host-control.md) | Graceful shutdown and exit-code behavior |
-| [Cycle background service](docs/cycle-background-service.md) | Fixed-cadence scheduling and errors |
-| [API reference](api/index.md) | Complete public API |
+| [Introduction](https://github.com/Invex-Games/hosting-extensions/blob/main/docs/introduction.md) | What the library is for, key concepts and design principles |
+| [Getting Started](https://github.com/Invex-Games/hosting-extensions/blob/main/docs/getting-started.md) | Installation, supported frameworks and a guided example |
+| [Multi-Interface Registration](https://github.com/Invex-Games/hosting-extensions/blob/main/docs/multi-interface-registration.md) | Shared-instance DI registrations |
+| [Host Control](https://github.com/Invex-Games/hosting-extensions/blob/main/docs/host-control.md) | Graceful shutdown and exit-code behavior |
+| [Cycle Background Service](https://github.com/Invex-Games/hosting-extensions/blob/main/docs/cycle-background-service.md) | Fixed-cadence scheduling, shutdown and errors |
+| [API Reference](https://invex-games.github.io/hosting-extensions/api/index.html) | Complete public API |
+
+## Development
+
+The repository requires the .NET 10 SDK selected by `global.json`. From the repository root:
+
+```shell
+dotnet build Invex.Extensions.Hosting.slnx
+dotnet test Invex.Extensions.Hosting.slnx
+```
+
+The documentation site is built with DocFX through the Atom build in `_atom/`:
+
+```shell
+atom BuildDocs   # build the site into _site/
+atom ServeDocs   # build and serve it locally
+```
 
 ## License
 
-[MIT](LICENSE.txt) © Declan Smith
+[MIT](https://github.com/Invex-Games/hosting-extensions/blob/main/LICENSE.txt) © Declan Smith
