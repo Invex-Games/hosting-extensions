@@ -83,6 +83,9 @@ public sealed class StartupTasks(IHostControl hostControl)
 
 ## See also
 
-- [API reference: IHostControl](../api/IHostControl.md)
-- [API reference: HostControlHostExtensions](../api/HostControlHostExtensions.md)
+- [Cycle Background Service](cycle-background-service.md): stop the host from a periodic worker once failures
+  exceed a threshold.
+- [Getting Started](getting-started.md)
+- <xref:Invex.Extensions.Hosting.Control.IHostControl>
+- <xref:Invex.Extensions.Hosting.Control.HostControlHostExtensions>
 

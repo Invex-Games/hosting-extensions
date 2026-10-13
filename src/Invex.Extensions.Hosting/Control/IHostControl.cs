@@ -33,7 +33,10 @@ public interface IHostControl : IHostApplicationLifetime
     /// </param>
     /// <remarks>
     ///     This sets <see cref="Environment.ExitCode" /> to <paramref name="exitCode" /> and then calls
-    ///     <see cref="IHostApplicationLifetime.StopApplication" /> to begin a graceful shutdown.
+    ///     <see cref="IHostApplicationLifetime.StopApplication" /> to begin a graceful shutdown: hosted services are
+    ///     stopped via <see cref="IHostedService.StopAsync(CancellationToken)" />, and the
+    ///     <see cref="IHostApplicationLifetime.ApplicationStopping" /> and
+    ///     <see cref="IHostApplicationLifetime.ApplicationStopped" /> tokens fire as usual.
     ///     Like <see cref="IHostApplicationLifetime.StopApplication" />, this method returns immediately;
     ///     it does not wait for the shutdown to complete.
     /// </remarks>

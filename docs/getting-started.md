@@ -1,5 +1,8 @@
 # Getting Started
 
+This page takes you from installing the package to a running host that uses all three features together.
+Read it first if you are new to the library.
+
 ## Installation
 
 Install the NuGet package into the project that builds your host:
@@ -86,7 +89,7 @@ public sealed class HealthWorker(IHostControl hostControl) : CycleBackgroundServ
 
 What each piece contributes:
 
-1. **`AddHostControl()`** registers [`IHostControl`](../api/IHostControl.md), a superset of
+1. **`AddHostControl()`** registers <xref:Invex.Extensions.Hosting.Control.IHostControl>, a superset of
    `IHostApplicationLifetime` that adds `StopApplication(int exitCode)`.
 2. **`AddHostedService<TService, TImplementation>()`** registers `HealthWorker` once and forwards
    `IHealthStatus` *and* `IHostedService` to that single instance — so a health endpoint can inject
@@ -97,8 +100,8 @@ What each piece contributes:
 
 ## Next steps
 
-- [Multi-interface registration](multi-interface-registration.md)
-- [Host control](host-control.md)
-- [Cycle background service](cycle-background-service.md)
-- [API reference](../api/index.md)
+- [Multi-Interface Registration](multi-interface-registration.md)
+- [Host Control](host-control.md)
+- [Cycle Background Service](cycle-background-service.md)
+- [API Reference](../api/index.md)
 
