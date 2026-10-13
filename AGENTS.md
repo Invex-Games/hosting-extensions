@@ -66,7 +66,7 @@ Cleanup honors `.editorconfig` and team-shared `*.DotSettings` automatically.
 - Add complete XML documentation to every new public type and member, even though `CS1591` is
   suppressed. Keep docs exact about null behavior, return values, timing, and errors.
 - Annotate every new public type with `[PublicAPI]`.
-- On .NET 8 and later, annotate DI implementation type parameters with
+- In the `net10.0` build, annotate DI implementation type parameters with
   `DynamicallyAccessedMembers(PublicConstructors)` for trimming and AOT compatibility.
 - Keep internal helpers `internal` and preserve the intentionally small public API.
 - Follow existing patterns, formatting, and localization. Add comments only where behavior is not

@@ -47,9 +47,9 @@ building block:
 - **Tiny surface area.** The library exposes exactly four public types. Everything else is internal.
 - **No behavioral surprises.** All extensions compose the standard `Microsoft.Extensions.DependencyInjection`
   and `Microsoft.Extensions.Hosting` primitives; nothing replaces or intercepts host behavior.
-- **Broad compatibility.** Targets `netstandard2.0` through `net10.0`, so it works in both legacy
+- **Broad compatibility.** Targets `netstandard2.0` and `net10.0`, so it works in both legacy
   applications (including .NET Framework 4.8, via the `netstandard2.0` build) and modern ones.
-- **Trimming/AOT friendly.** On .NET 8+, implementation type parameters are annotated with
+- **Trimming/AOT friendly.** In the `net10.0` build, implementation type parameters are annotated with
   `[DynamicallyAccessedMembers]` so trimming preserves the constructors the DI container needs.
 - **Stable public API.** The public API surface is locked by snapshot tests
   (`PublicApiTests`); any accidental breaking change fails the build.
