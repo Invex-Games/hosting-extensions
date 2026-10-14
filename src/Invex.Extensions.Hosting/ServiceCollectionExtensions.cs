@@ -24,7 +24,7 @@ namespace Invex.Extensions.Hosting;
 ///         <c>AddScoped</c> methods; they are not conditional <c>TryAdd</c> registrations.
 ///     </para>
 ///     <para>
-///         On .NET 8 and later, the <c>TImplementation</c> type parameter of every overload is
+///         In the <c>net10.0</c> build, the <c>TImplementation</c> type parameter of every overload is
 ///         annotated with <c>[DynamicallyAccessedMembers]</c>
 ///         (<c>DynamicallyAccessedMemberTypes.PublicConstructors</c>), so the constructors required by the
 ///         dependency injection container are preserved under trimming.

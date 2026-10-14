@@ -35,8 +35,8 @@ dotnet test Invex.Extensions.Hosting.slnx
 docfx docfx.json
 ```
 
-The test project targets `net10.0`, `net9.0`, `net8.0`, and `net48`. The library targets
-`net10.0`, `net9.0`, `net8.0`, and `netstandard2.0`; code must compile for all four library
+The test project targets `net10.0` and `net48`. The library targets
+`net10.0` and `netstandard2.0`; code must compile for both library
 targets. Use `#if NET8_0_OR_GREATER` for APIs unavailable on older targets, following the existing
 pattern in `ServiceCollectionExtensions.cs`.
 
@@ -66,7 +66,7 @@ Cleanup honors `.editorconfig` and team-shared `*.DotSettings` automatically.
 - Add complete XML documentation to every new public type and member, even though `CS1591` is
   suppressed. Keep docs exact about null behavior, return values, timing, and errors.
 - Annotate every new public type with `[PublicAPI]`.
-- On .NET 8 and later, annotate DI implementation type parameters with
+- In the `net10.0` build, annotate DI implementation type parameters with
   `DynamicallyAccessedMembers(PublicConstructors)` for trimming and AOT compatibility.
 - Keep internal helpers `internal` and preserve the intentionally small public API.
 - Follow existing patterns, formatting, and localization. Add comments only where behavior is not
@@ -99,7 +99,7 @@ dotnet run --project _atom -- gen
 ```
 
 Commit regenerated files with the Atom change. The workflows validate and test the project on
-`net8.0`, `net9.0`, `net10.0`, and `net48`; package and documentation publishing occurs in the
+`net10.0` and `net48`; package and documentation publishing occurs in the
 Build workflow. Notable Atom targets include `PackProjects`, `TestProjects`, `TestFxProjects`,
 `BuildDocs`, `PublishDocs`, and `CheckPrForBreakingChanges`.
 
