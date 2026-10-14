@@ -37,6 +37,92 @@ public class ServiceCollectionExtensionsTests
             Task.CompletedTask;
     }
 
+    private sealed class AsyncDisposableImplementation
+        : IHostedService, IAsyncDisposable, IInterface1, IInterface2, IInterface3, IInterface4, IInterface5
+    {
+        public int DisposeCount { get; private set; }
+
+        public ValueTask DisposeAsync()
+        {
+            DisposeCount++;
+
+            return ValueTask.CompletedTask;
+        }
+
+        public Task StartAsync(CancellationToken cancellationToken) =>
+            Task.CompletedTask;
+
+        public Task StopAsync(CancellationToken cancellationToken) =>
+            Task.CompletedTask;
+    }
+
+    private static AsyncDisposableImplementation ResolveAllAsyncDisposable(IServiceProvider serviceProvider)
+    {
+        var implementation = serviceProvider.GetRequiredService<AsyncDisposableImplementation>();
+
+        serviceProvider.GetRequiredService<IInterface1>().ShouldBeSameAs(implementation);
+        serviceProvider.GetRequiredService<IInterface2>().ShouldBeSameAs(implementation);
+        serviceProvider.GetRequiredService<IInterface3>().ShouldBeSameAs(implementation);
+        serviceProvider.GetRequiredService<IInterface4>().ShouldBeSameAs(implementation);
+        serviceProvider.GetRequiredService<IInterface5>().ShouldBeSameAs(implementation);
+
+        return implementation;
+    }
+
+    [Test]
+    public async Task AddSingleton_WithMultipleInterfaces_DisposesAsyncSharedInstanceOncePerResolvedRegistration()
+    {
+        // Arrange
+        var serviceProvider = new ServiceCollection()
+            .AddSingleton<IInterface1, IInterface2, IInterface3, IInterface4, IInterface5, AsyncDisposableImplementation>()
+            .BuildServiceProvider();
+
+        var implementation = ResolveAllAsyncDisposable(serviceProvider);
+
+        // Act
+        await serviceProvider.DisposeAsync();
+
+        // Assert
+        implementation.DisposeCount.ShouldBe(6);
+    }
+
+    [Test]
+    public async Task AddScoped_WithMultipleInterfaces_DisposesAsyncSharedInstanceOncePerResolvedRegistration()
+    {
+        // Arrange
+        await using var serviceProvider = new ServiceCollection()
+            .AddScoped<IInterface1, IInterface2, IInterface3, IInterface4, IInterface5, AsyncDisposableImplementation>()
+            .BuildServiceProvider();
+
+        var scope = serviceProvider.CreateAsyncScope();
+        var implementation = ResolveAllAsyncDisposable(scope.ServiceProvider);
+
+        // Act
+        await scope.DisposeAsync();
+
+        // Assert
+        implementation.DisposeCount.ShouldBe(6);
+    }
+
+    [Test]
+    public async Task AddHostedService_WithMultipleInterfaces_DisposesAsyncSharedInstanceOncePerResolvedRegistration()
+    {
+        // Arrange
+        var serviceProvider = new ServiceCollection()
+            .AddHostedService<IInterface1, IInterface2, IInterface3, IInterface4, IInterface5,
+                AsyncDisposableImplementation>()
+            .BuildServiceProvider();
+
+        var implementation = ResolveAllAsyncDisposable(serviceProvider);
+        serviceProvider.GetServices<IHostedService>().ShouldHaveSingleItem().ShouldBeSameAs(implementation);
+
+        // Act
+        await serviceProvider.DisposeAsync();
+
+        // Assert
+        implementation.DisposeCount.ShouldBe(7);
+    }
+
     private static DisposableImplementation ResolveAll(IServiceProvider serviceProvider)
     {
         var implementation = serviceProvider.GetRequiredService<DisposableImplementation>();
