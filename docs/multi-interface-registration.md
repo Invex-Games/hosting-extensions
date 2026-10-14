@@ -78,9 +78,15 @@ app.MapGet("/queue/depth", (IQueueMonitor monitor) => monitor.Depth);
 - **Shared instance guarantee.** Resolving any of the registered service types (or
   `TImplementation` itself) yields the same instance — per application for singletons, per scope
   for scoped registrations.
-- **Disposal.** The container owns the instance and disposes it once (it disposes the
-  `TImplementation` registration; the forwards are factory registrations that don't trigger a
-  second disposal).
+- **Disposal.** The container owns the instance, but it may call `Dispose`/`DisposeAsync` on it
+  **more than once**. `Microsoft.Extensions.DependencyInjection` tracks every disposable object a
+  factory registration returns, and each forward is a factory registration, so the shared instance
+  is disposed once for the `TImplementation` registration and once more for every forwarded service
+  type (and, for `AddHostedService`, the `IHostedService` forward) that was resolved. For example,
+  resolving all five service types of `AddSingleton<IFoo1, …, IFoo5, MyService>()` leads to six
+  `Dispose` calls when the provider is disposed. Make `Dispose` idempotent, as the
+  [`IDisposable` guidelines](https://learn.microsoft.com/dotnet/standard/garbage-collection/implementing-dispose)
+  already require.
 - **Not "TryAdd".** Registrations are appended unconditionally, matching the behavior of the
   framework's own `AddSingleton`/`AddScoped`.
 - **Trimming/AOT.** In the `net10.0` build, `TImplementation` is annotated with
