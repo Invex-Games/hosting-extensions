@@ -20,6 +20,13 @@ namespace Invex.Extensions.Hosting;
 ///         through its service interfaces.
 ///     </para>
 ///     <para>
+///         The container may dispose the shared instance more than once: it tracks every disposable object returned
+///         by a factory registration, and each forwarded service type is a factory registration. When the provider
+///         (or scope) is disposed, <c>Dispose</c>/<c>DisposeAsync</c> is called once for the <c>TImplementation</c>
+///         registration and once for each forwarded registration that was resolved, so implementations should make
+///         disposal idempotent.
+///     </para>
+///     <para>
 ///         Registrations are appended unconditionally, like the framework's own <c>AddSingleton</c> and
 ///         <c>AddScoped</c> methods; they are not conditional <c>TryAdd</c> registrations.
 ///     </para>

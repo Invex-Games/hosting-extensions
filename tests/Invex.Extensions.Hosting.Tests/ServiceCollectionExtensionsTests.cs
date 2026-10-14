@@ -22,6 +22,110 @@ public class ServiceCollectionExtensionsTests
             Task.CompletedTask;
     }
 
+    private sealed class DisposableImplementation
+        : IHostedService, IDisposable, IInterface1, IInterface2, IInterface3, IInterface4, IInterface5
+    {
+        public int DisposeCount { get; private set; }
+
+        public void Dispose() =>
+            DisposeCount++;
+
+        public Task StartAsync(CancellationToken cancellationToken) =>
+            Task.CompletedTask;
+
+        public Task StopAsync(CancellationToken cancellationToken) =>
+            Task.CompletedTask;
+    }
+
+    private static DisposableImplementation ResolveAll(IServiceProvider serviceProvider)
+    {
+        var implementation = serviceProvider.GetRequiredService<DisposableImplementation>();
+
+        serviceProvider.GetRequiredService<IInterface1>().ShouldBeSameAs(implementation);
+        serviceProvider.GetRequiredService<IInterface2>().ShouldBeSameAs(implementation);
+        serviceProvider.GetRequiredService<IInterface3>().ShouldBeSameAs(implementation);
+        serviceProvider.GetRequiredService<IInterface4>().ShouldBeSameAs(implementation);
+        serviceProvider.GetRequiredService<IInterface5>().ShouldBeSameAs(implementation);
+
+        return implementation;
+    }
+
+    [Test]
+    public void AddSingleton_WithMultipleInterfaces_DisposesSharedInstanceOncePerResolvedRegistration()
+    {
+        // Arrange
+        var serviceProvider = new ServiceCollection()
+            .AddSingleton<IInterface1, IInterface2, IInterface3, IInterface4, IInterface5, DisposableImplementation>()
+            .BuildServiceProvider();
+
+        var implementation = ResolveAll(serviceProvider);
+
+        // Act
+        serviceProvider.Dispose();
+
+        // Assert
+        // Microsoft.Extensions.DependencyInjection tracks every disposable a factory returns, so the shared
+        // instance is disposed once for TImplementation and once for each resolved forward (5).
+        implementation.DisposeCount.ShouldBe(6);
+    }
+
+    [Test]
+    public void AddSingleton_WhenOnlyImplementationResolved_DisposesSharedInstanceOnce()
+    {
+        // Arrange
+        var serviceProvider = new ServiceCollection()
+            .AddSingleton<IInterface1, IInterface2, DisposableImplementation>()
+            .BuildServiceProvider();
+
+        var implementation = serviceProvider.GetRequiredService<DisposableImplementation>();
+
+        // Act
+        serviceProvider.Dispose();
+
+        // Assert
+        implementation.DisposeCount.ShouldBe(1);
+    }
+
+    [Test]
+    public void AddScoped_WithMultipleInterfaces_DisposesSharedInstanceOncePerResolvedRegistration()
+    {
+        // Arrange
+        using var serviceProvider = new ServiceCollection()
+            .AddScoped<IInterface1, IInterface2, IInterface3, IInterface4, IInterface5, DisposableImplementation>()
+            .BuildServiceProvider();
+
+        var scope = serviceProvider.CreateScope();
+        var implementation = ResolveAll(scope.ServiceProvider);
+
+        // Act
+        scope.Dispose();
+
+        // Assert
+        // Microsoft.Extensions.DependencyInjection tracks every disposable a factory returns, so the shared
+        // instance is disposed once for TImplementation and once for each resolved forward (5).
+        implementation.DisposeCount.ShouldBe(6);
+    }
+
+    [Test]
+    public void AddHostedService_WithMultipleInterfaces_DisposesSharedInstanceOncePerResolvedRegistration()
+    {
+        // Arrange
+        var serviceProvider = new ServiceCollection()
+            .AddHostedService<IInterface1, IInterface2, IInterface3, IInterface4, IInterface5,
+                DisposableImplementation>()
+            .BuildServiceProvider();
+
+        var implementation = ResolveAll(serviceProvider);
+        serviceProvider.GetServices<IHostedService>().ShouldHaveSingleItem().ShouldBeSameAs(implementation);
+
+        // Act
+        serviceProvider.Dispose();
+
+        // Assert
+        // TImplementation, the five forwards, and the IHostedService forward each dispose the shared instance.
+        implementation.DisposeCount.ShouldBe(7);
+    }
+
     [Test]
     public void Microsoft_DependencyInjection_DoesNotShareInstance()
     {
