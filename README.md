@@ -144,7 +144,7 @@ Full documentation: [https://invex-games.github.io/hosting-extensions/](https://
 
 ## Development
 
-The repository requires the .NET 10 SDK selected by `global.json`. From the repository root:
+The repository requires the .NET 11 SDK selected by `global.json`. From the repository root:
 
 ```shell
 dotnet build Invex.Extensions.Hosting.slnx
