@@ -1,0 +1,247 @@
+{
+  "docfx_version": "2.81.0+ba844df625370a6bd7c1ecab0d0ec4d1d9128ac4",
+  "source_base_path": "/home/runner/work/hosting-extensions/hosting-extensions",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "LICENSE.txt",
+      "output": {
+        "resource": {
+          "relative_path": "LICENSE.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Invex.Extensions.Hosting.Control.HostControlHostExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Invex.Extensions.Hosting.Control.HostControlHostExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Invex.Extensions.Hosting.Control.HostControlHostExtensions",
+      "Summary": "<p sourcefile=\"api/Invex.Extensions.Hosting.Control.HostControlHostExtensions.yml\" sourcestartlinenumber=\"1\">Provides extension methods for <xref href=\"Microsoft.Extensions.DependencyInjection.IServiceCollection\" data-throw-if-not-resolved=\"false\"></xref> to add host control capabilities.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Invex.Extensions.Hosting.Control.IHostControl.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Invex.Extensions.Hosting.Control.IHostControl.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Invex.Extensions.Hosting.Control.IHostControl",
+      "Summary": "<p sourcefile=\"api/Invex.Extensions.Hosting.Control.IHostControl.yml\" sourcestartlinenumber=\"1\">Provides control over the host application lifetime, extending\n<xref href=\"Microsoft.Extensions.Hosting.IHostApplicationLifetime\" data-throw-if-not-resolved=\"false\"></xref> with the ability to stop the application with a specific exit code.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Invex.Extensions.Hosting.Control.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Invex.Extensions.Hosting.Control.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Invex.Extensions.Hosting.Control",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Invex.Extensions.Hosting.Service.CycleBackgroundService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Invex.Extensions.Hosting.Service.CycleBackgroundService.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Invex.Extensions.Hosting.Service.CycleBackgroundService",
+      "Summary": "<p sourcefile=\"api/Invex.Extensions.Hosting.Service.CycleBackgroundService.yml\" sourcestartlinenumber=\"1\">A <xref href=\"Microsoft.Extensions.Hosting.BackgroundService\" data-throw-if-not-resolved=\"false\"></xref> that performs work in fixed-cadence cycles in the background.\nDerived classes specify how often the cycle runs via <xref href=\"Invex.Extensions.Hosting.Service.CycleBackgroundService.CycleCadenceMs\" data-throw-if-not-resolved=\"false\"></xref> and implement the\nper-cycle work in <xref href=\"Invex.Extensions.Hosting.Service.CycleBackgroundService.ExecuteCycleAsync(System.Threading.CancellationToken)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Invex.Extensions.Hosting.Service.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Invex.Extensions.Hosting.Service.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Invex.Extensions.Hosting.Service",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Invex.Extensions.Hosting.ServiceCollectionExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Invex.Extensions.Hosting.ServiceCollectionExtensions",
+      "Summary": "<p sourcefile=\"api/Invex.Extensions.Hosting.ServiceCollectionExtensions.yml\" sourcestartlinenumber=\"1\">Provides extension methods for <xref href=\"Microsoft.Extensions.DependencyInjection.IServiceCollection\" data-throw-if-not-resolved=\"false\"></xref> that register a single implementation type\nunder multiple service types (&quot;forwarded&quot; registrations) while sharing one instance per lifetime.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Invex.Extensions.Hosting.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Invex.Extensions.Hosting.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Invex.Extensions.Hosting",
+      "Summary": null
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/cycle-background-service.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/cycle-background-service.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/getting-started.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/getting-started.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/host-control.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/host-control.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/introduction.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/introduction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/multi-interface-registration.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/multi-interface-registration.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "docs/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/toc.html"
+        },
+        ".json": {
+          "relative_path": "docs/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/icon.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/icon.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
