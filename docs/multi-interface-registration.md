@@ -89,7 +89,7 @@ app.MapGet("/queue/depth", (IQueueMonitor monitor) => monitor.Depth);
   already require.
 - **Not "TryAdd".** Registrations are appended unconditionally, matching the behavior of the
   framework's own `AddSingleton`/`AddScoped`.
-- **Trimming/AOT.** In the `net10.0` build, `TImplementation` is annotated with
+- **Trimming/AOT.** In the `net10.0` and `net11.0` builds, `TImplementation` is annotated with
   `[DynamicallyAccessedMembers(PublicConstructors)]` so its constructors survive trimming.
 
 ## See also
