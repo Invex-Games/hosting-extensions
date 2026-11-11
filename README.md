@@ -22,7 +22,7 @@ the boilerplate around shared-instance registrations, exit codes on shutdown and
 dotnet add package Invex.Extensions.Hosting
 ```
 
-The package targets .NET 10 and .NET Standard 2.0. The .NET Standard build can be consumed by
+The package targets .NET 10, .NET 11 and .NET Standard 2.0. The .NET Standard build can be consumed by
 compatible runtimes, including .NET Framework 4.8 and older .NET versions. The only runtime dependency is
 `Microsoft.Extensions.Hosting.Abstractions`.
 
@@ -144,7 +144,7 @@ Full documentation: [https://invex-games.github.io/hosting-extensions/](https://
 
 ## Development
 
-The repository requires the .NET 10 SDK selected by `global.json`. From the repository root:
+The repository requires the .NET 11 SDK selected by `global.json`, plus the .NET 10 runtime (or SDK) for the `net10.0` tests and build project. Tests run on `net10.0`, `net11.0` and (on Windows) `net48`. From the repository root:
 
 ```shell
 dotnet build Invex.Extensions.Hosting.slnx
