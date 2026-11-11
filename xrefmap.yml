@@ -1,0 +1,251 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: Invex.Extensions.Hosting
+  name: Invex.Extensions.Hosting
+  href: api/Invex.Extensions.Hosting.html
+  commentId: N:Invex.Extensions.Hosting
+  fullName: Invex.Extensions.Hosting
+  nameWithType: Invex.Extensions.Hosting
+- uid: Invex.Extensions.Hosting.Control
+  name: Invex.Extensions.Hosting.Control
+  href: api/Invex.Extensions.Hosting.Control.html
+  commentId: N:Invex.Extensions.Hosting.Control
+  fullName: Invex.Extensions.Hosting.Control
+  nameWithType: Invex.Extensions.Hosting.Control
+- uid: Invex.Extensions.Hosting.Control.HostControlHostExtensions
+  name: HostControlHostExtensions
+  href: api/Invex.Extensions.Hosting.Control.HostControlHostExtensions.html
+  commentId: T:Invex.Extensions.Hosting.Control.HostControlHostExtensions
+  fullName: Invex.Extensions.Hosting.Control.HostControlHostExtensions
+  nameWithType: HostControlHostExtensions
+- uid: Invex.Extensions.Hosting.Control.HostControlHostExtensions.AddHostControl(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddHostControl(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.Control.HostControlHostExtensions.html#Invex_Extensions_Hosting_Control_HostControlHostExtensions_AddHostControl_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.Control.HostControlHostExtensions.AddHostControl(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName: Invex.Extensions.Hosting.Control.HostControlHostExtensions.AddHostControl(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: HostControlHostExtensions.AddHostControl(IServiceCollection)
+- uid: Invex.Extensions.Hosting.Control.HostControlHostExtensions.AddHostControl*
+  name: AddHostControl
+  href: api/Invex.Extensions.Hosting.Control.HostControlHostExtensions.html#Invex_Extensions_Hosting_Control_HostControlHostExtensions_AddHostControl_
+  commentId: Overload:Invex.Extensions.Hosting.Control.HostControlHostExtensions.AddHostControl
+  isSpec: "True"
+  fullName: Invex.Extensions.Hosting.Control.HostControlHostExtensions.AddHostControl
+  nameWithType: HostControlHostExtensions.AddHostControl
+- uid: Invex.Extensions.Hosting.Control.IHostControl
+  name: IHostControl
+  href: api/Invex.Extensions.Hosting.Control.IHostControl.html
+  commentId: T:Invex.Extensions.Hosting.Control.IHostControl
+  fullName: Invex.Extensions.Hosting.Control.IHostControl
+  nameWithType: IHostControl
+- uid: Invex.Extensions.Hosting.Control.IHostControl.StopApplication(System.Int32)
+  name: StopApplication(int)
+  href: api/Invex.Extensions.Hosting.Control.IHostControl.html#Invex_Extensions_Hosting_Control_IHostControl_StopApplication_System_Int32_
+  commentId: M:Invex.Extensions.Hosting.Control.IHostControl.StopApplication(System.Int32)
+  name.vb: StopApplication(Integer)
+  fullName: Invex.Extensions.Hosting.Control.IHostControl.StopApplication(int)
+  fullName.vb: Invex.Extensions.Hosting.Control.IHostControl.StopApplication(Integer)
+  nameWithType: IHostControl.StopApplication(int)
+  nameWithType.vb: IHostControl.StopApplication(Integer)
+- uid: Invex.Extensions.Hosting.Control.IHostControl.StopApplication*
+  name: StopApplication
+  href: api/Invex.Extensions.Hosting.Control.IHostControl.html#Invex_Extensions_Hosting_Control_IHostControl_StopApplication_
+  commentId: Overload:Invex.Extensions.Hosting.Control.IHostControl.StopApplication
+  isSpec: "True"
+  fullName: Invex.Extensions.Hosting.Control.IHostControl.StopApplication
+  nameWithType: IHostControl.StopApplication
+- uid: Invex.Extensions.Hosting.Service
+  name: Invex.Extensions.Hosting.Service
+  href: api/Invex.Extensions.Hosting.Service.html
+  commentId: N:Invex.Extensions.Hosting.Service
+  fullName: Invex.Extensions.Hosting.Service
+  nameWithType: Invex.Extensions.Hosting.Service
+- uid: Invex.Extensions.Hosting.Service.CycleBackgroundService
+  name: CycleBackgroundService
+  href: api/Invex.Extensions.Hosting.Service.CycleBackgroundService.html
+  commentId: T:Invex.Extensions.Hosting.Service.CycleBackgroundService
+  fullName: Invex.Extensions.Hosting.Service.CycleBackgroundService
+  nameWithType: CycleBackgroundService
+- uid: Invex.Extensions.Hosting.Service.CycleBackgroundService.CycleCadenceMs
+  name: CycleCadenceMs
+  href: api/Invex.Extensions.Hosting.Service.CycleBackgroundService.html#Invex_Extensions_Hosting_Service_CycleBackgroundService_CycleCadenceMs
+  commentId: P:Invex.Extensions.Hosting.Service.CycleBackgroundService.CycleCadenceMs
+  fullName: Invex.Extensions.Hosting.Service.CycleBackgroundService.CycleCadenceMs
+  nameWithType: CycleBackgroundService.CycleCadenceMs
+- uid: Invex.Extensions.Hosting.Service.CycleBackgroundService.CycleCadenceMs*
+  name: CycleCadenceMs
+  href: api/Invex.Extensions.Hosting.Service.CycleBackgroundService.html#Invex_Extensions_Hosting_Service_CycleBackgroundService_CycleCadenceMs_
+  commentId: Overload:Invex.Extensions.Hosting.Service.CycleBackgroundService.CycleCadenceMs
+  isSpec: "True"
+  fullName: Invex.Extensions.Hosting.Service.CycleBackgroundService.CycleCadenceMs
+  nameWithType: CycleBackgroundService.CycleCadenceMs
+- uid: Invex.Extensions.Hosting.Service.CycleBackgroundService.ExecuteAsync(System.Threading.CancellationToken)
+  name: ExecuteAsync(CancellationToken)
+  href: api/Invex.Extensions.Hosting.Service.CycleBackgroundService.html#Invex_Extensions_Hosting_Service_CycleBackgroundService_ExecuteAsync_System_Threading_CancellationToken_
+  commentId: M:Invex.Extensions.Hosting.Service.CycleBackgroundService.ExecuteAsync(System.Threading.CancellationToken)
+  fullName: Invex.Extensions.Hosting.Service.CycleBackgroundService.ExecuteAsync(System.Threading.CancellationToken)
+  nameWithType: CycleBackgroundService.ExecuteAsync(CancellationToken)
+- uid: Invex.Extensions.Hosting.Service.CycleBackgroundService.ExecuteAsync*
+  name: ExecuteAsync
+  href: api/Invex.Extensions.Hosting.Service.CycleBackgroundService.html#Invex_Extensions_Hosting_Service_CycleBackgroundService_ExecuteAsync_
+  commentId: Overload:Invex.Extensions.Hosting.Service.CycleBackgroundService.ExecuteAsync
+  isSpec: "True"
+  fullName: Invex.Extensions.Hosting.Service.CycleBackgroundService.ExecuteAsync
+  nameWithType: CycleBackgroundService.ExecuteAsync
+- uid: Invex.Extensions.Hosting.Service.CycleBackgroundService.ExecuteCycleAsync(System.Threading.CancellationToken)
+  name: ExecuteCycleAsync(CancellationToken)
+  href: api/Invex.Extensions.Hosting.Service.CycleBackgroundService.html#Invex_Extensions_Hosting_Service_CycleBackgroundService_ExecuteCycleAsync_System_Threading_CancellationToken_
+  commentId: M:Invex.Extensions.Hosting.Service.CycleBackgroundService.ExecuteCycleAsync(System.Threading.CancellationToken)
+  fullName: Invex.Extensions.Hosting.Service.CycleBackgroundService.ExecuteCycleAsync(System.Threading.CancellationToken)
+  nameWithType: CycleBackgroundService.ExecuteCycleAsync(CancellationToken)
+- uid: Invex.Extensions.Hosting.Service.CycleBackgroundService.ExecuteCycleAsync*
+  name: ExecuteCycleAsync
+  href: api/Invex.Extensions.Hosting.Service.CycleBackgroundService.html#Invex_Extensions_Hosting_Service_CycleBackgroundService_ExecuteCycleAsync_
+  commentId: Overload:Invex.Extensions.Hosting.Service.CycleBackgroundService.ExecuteCycleAsync
+  isSpec: "True"
+  fullName: Invex.Extensions.Hosting.Service.CycleBackgroundService.ExecuteCycleAsync
+  nameWithType: CycleBackgroundService.ExecuteCycleAsync
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions
+  name: ServiceCollectionExtensions
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html
+  commentId: T:Invex.Extensions.Hosting.ServiceCollectionExtensions
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions
+  nameWithType: ServiceCollectionExtensions
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService*
+  name: AddHostedService
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddHostedService_
+  commentId: Overload:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService
+  isSpec: "True"
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService
+  nameWithType: ServiceCollectionExtensions.AddHostedService
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService``2(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddHostedService<TService, TImplementation>(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddHostedService__2_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService``2(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name.vb: AddHostedService(Of TService, TImplementation)(IServiceCollection)
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService<TService, TImplementation>(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName.vb: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService(Of TService, TImplementation)(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddHostedService<TService, TImplementation>(IServiceCollection)
+  nameWithType.vb: ServiceCollectionExtensions.AddHostedService(Of TService, TImplementation)(IServiceCollection)
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService``3(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddHostedService<TService1, TService2, TImplementation>(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddHostedService__3_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService``3(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name.vb: AddHostedService(Of TService1, TService2, TImplementation)(IServiceCollection)
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService<TService1, TService2, TImplementation>(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName.vb: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService(Of TService1, TService2, TImplementation)(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddHostedService<TService1, TService2, TImplementation>(IServiceCollection)
+  nameWithType.vb: ServiceCollectionExtensions.AddHostedService(Of TService1, TService2, TImplementation)(IServiceCollection)
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService``4(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddHostedService<TService1, TService2, TService3, TImplementation>(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddHostedService__4_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService``4(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name.vb: AddHostedService(Of TService1, TService2, TService3, TImplementation)(IServiceCollection)
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService<TService1, TService2, TService3, TImplementation>(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName.vb: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService(Of TService1, TService2, TService3, TImplementation)(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddHostedService<TService1, TService2, TService3, TImplementation>(IServiceCollection)
+  nameWithType.vb: ServiceCollectionExtensions.AddHostedService(Of TService1, TService2, TService3, TImplementation)(IServiceCollection)
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService``5(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddHostedService<TService1, TService2, TService3, TService4, TImplementation>(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddHostedService__5_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService``5(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name.vb: AddHostedService(Of TService1, TService2, TService3, TService4, TImplementation)(IServiceCollection)
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService<TService1, TService2, TService3, TService4, TImplementation>(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName.vb: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService(Of TService1, TService2, TService3, TService4, TImplementation)(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddHostedService<TService1, TService2, TService3, TService4, TImplementation>(IServiceCollection)
+  nameWithType.vb: ServiceCollectionExtensions.AddHostedService(Of TService1, TService2, TService3, TService4, TImplementation)(IServiceCollection)
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService``6(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddHostedService<TService1, TService2, TService3, TService4, TService5, TImplementation>(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddHostedService__6_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService``6(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name.vb: AddHostedService(Of TService1, TService2, TService3, TService4, TService5, TImplementation)(IServiceCollection)
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService<TService1, TService2, TService3, TService4, TService5, TImplementation>(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName.vb: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddHostedService(Of TService1, TService2, TService3, TService4, TService5, TImplementation)(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddHostedService<TService1, TService2, TService3, TService4, TService5, TImplementation>(IServiceCollection)
+  nameWithType.vb: ServiceCollectionExtensions.AddHostedService(Of TService1, TService2, TService3, TService4, TService5, TImplementation)(IServiceCollection)
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped*
+  name: AddScoped
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddScoped_
+  commentId: Overload:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped
+  isSpec: "True"
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped
+  nameWithType: ServiceCollectionExtensions.AddScoped
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped``3(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddScoped<TService1, TService2, TImplementation>(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddScoped__3_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped``3(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name.vb: AddScoped(Of TService1, TService2, TImplementation)(IServiceCollection)
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped<TService1, TService2, TImplementation>(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName.vb: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped(Of TService1, TService2, TImplementation)(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddScoped<TService1, TService2, TImplementation>(IServiceCollection)
+  nameWithType.vb: ServiceCollectionExtensions.AddScoped(Of TService1, TService2, TImplementation)(IServiceCollection)
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped``4(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddScoped<TService1, TService2, TService3, TImplementation>(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddScoped__4_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped``4(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name.vb: AddScoped(Of TService1, TService2, TService3, TImplementation)(IServiceCollection)
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped<TService1, TService2, TService3, TImplementation>(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName.vb: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped(Of TService1, TService2, TService3, TImplementation)(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddScoped<TService1, TService2, TService3, TImplementation>(IServiceCollection)
+  nameWithType.vb: ServiceCollectionExtensions.AddScoped(Of TService1, TService2, TService3, TImplementation)(IServiceCollection)
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped``5(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddScoped<TService1, TService2, TService3, TService4, TImplementation>(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddScoped__5_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped``5(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name.vb: AddScoped(Of TService1, TService2, TService3, TService4, TImplementation)(IServiceCollection)
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped<TService1, TService2, TService3, TService4, TImplementation>(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName.vb: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped(Of TService1, TService2, TService3, TService4, TImplementation)(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddScoped<TService1, TService2, TService3, TService4, TImplementation>(IServiceCollection)
+  nameWithType.vb: ServiceCollectionExtensions.AddScoped(Of TService1, TService2, TService3, TService4, TImplementation)(IServiceCollection)
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped``6(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddScoped<TService1, TService2, TService3, TService4, TService5, TImplementation>(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddScoped__6_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped``6(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name.vb: AddScoped(Of TService1, TService2, TService3, TService4, TService5, TImplementation)(IServiceCollection)
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped<TService1, TService2, TService3, TService4, TService5, TImplementation>(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName.vb: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddScoped(Of TService1, TService2, TService3, TService4, TService5, TImplementation)(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddScoped<TService1, TService2, TService3, TService4, TService5, TImplementation>(IServiceCollection)
+  nameWithType.vb: ServiceCollectionExtensions.AddScoped(Of TService1, TService2, TService3, TService4, TService5, TImplementation)(IServiceCollection)
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton*
+  name: AddSingleton
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddSingleton_
+  commentId: Overload:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton
+  isSpec: "True"
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton
+  nameWithType: ServiceCollectionExtensions.AddSingleton
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton``3(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddSingleton<TService1, TService2, TImplementation>(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddSingleton__3_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton``3(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name.vb: AddSingleton(Of TService1, TService2, TImplementation)(IServiceCollection)
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton<TService1, TService2, TImplementation>(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName.vb: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton(Of TService1, TService2, TImplementation)(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddSingleton<TService1, TService2, TImplementation>(IServiceCollection)
+  nameWithType.vb: ServiceCollectionExtensions.AddSingleton(Of TService1, TService2, TImplementation)(IServiceCollection)
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton``4(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddSingleton<TService1, TService2, TService3, TImplementation>(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddSingleton__4_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton``4(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name.vb: AddSingleton(Of TService1, TService2, TService3, TImplementation)(IServiceCollection)
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton<TService1, TService2, TService3, TImplementation>(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName.vb: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton(Of TService1, TService2, TService3, TImplementation)(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddSingleton<TService1, TService2, TService3, TImplementation>(IServiceCollection)
+  nameWithType.vb: ServiceCollectionExtensions.AddSingleton(Of TService1, TService2, TService3, TImplementation)(IServiceCollection)
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton``5(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddSingleton<TService1, TService2, TService3, TService4, TImplementation>(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddSingleton__5_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton``5(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name.vb: AddSingleton(Of TService1, TService2, TService3, TService4, TImplementation)(IServiceCollection)
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton<TService1, TService2, TService3, TService4, TImplementation>(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName.vb: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton(Of TService1, TService2, TService3, TService4, TImplementation)(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddSingleton<TService1, TService2, TService3, TService4, TImplementation>(IServiceCollection)
+  nameWithType.vb: ServiceCollectionExtensions.AddSingleton(Of TService1, TService2, TService3, TService4, TImplementation)(IServiceCollection)
+- uid: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton``6(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name: AddSingleton<TService1, TService2, TService3, TService4, TService5, TImplementation>(IServiceCollection)
+  href: api/Invex.Extensions.Hosting.ServiceCollectionExtensions.html#Invex_Extensions_Hosting_ServiceCollectionExtensions_AddSingleton__6_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  commentId: M:Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton``6(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  name.vb: AddSingleton(Of TService1, TService2, TService3, TService4, TService5, TImplementation)(IServiceCollection)
+  fullName: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton<TService1, TService2, TService3, TService4, TService5, TImplementation>(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  fullName.vb: Invex.Extensions.Hosting.ServiceCollectionExtensions.AddSingleton(Of TService1, TService2, TService3, TService4, TService5, TImplementation)(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddSingleton<TService1, TService2, TService3, TService4, TService5, TImplementation>(IServiceCollection)
+  nameWithType.vb: ServiceCollectionExtensions.AddSingleton(Of TService1, TService2, TService3, TService4, TService5, TImplementation)(IServiceCollection)
