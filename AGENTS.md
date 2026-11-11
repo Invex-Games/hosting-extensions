@@ -27,7 +27,7 @@ The library's four public types are:
 
 ## Build, test, and documentation
 
-The repository requires the .NET 11 SDK selected by `global.json`. From the repository root:
+The repository requires the .NET 11 SDK selected by `global.json`, plus the .NET 10 runtime (or SDK) for the `net10.0` tests and build project. From the repository root:
 
 ```powershell
 dotnet build Invex.Extensions.Hosting.slnx
