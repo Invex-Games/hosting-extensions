@@ -15,7 +15,8 @@ dotnet add package Invex.Extensions.Hosting
 
 | Target | Notes |
 |---|---|
-| .NET 10 | Trimming/AOT annotations are only in this build |
+| .NET 10 | Trimming/AOT annotations are in the .NET 10 and .NET 11 builds |
+| .NET 11 | Same API as the .NET 10 build |
 | .NET Standard 2.0 | Any runtime that supports `Microsoft.Extensions.Hosting.Abstractions`, including .NET Framework 4.8 (the test suite runs on `net48` against this build) |
 
 The only runtime dependency is `Microsoft.Extensions.Hosting.Abstractions`.
