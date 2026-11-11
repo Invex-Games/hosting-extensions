@@ -27,7 +27,7 @@ The library's four public types are:
 
 ## Build, test, and documentation
 
-The repository requires the .NET 10 SDK selected by `global.json`. From the repository root:
+The repository requires the .NET 11 SDK selected by `global.json`, plus the .NET 10 runtime (or SDK) for the `net10.0` tests and build project. From the repository root:
 
 ```powershell
 dotnet build Invex.Extensions.Hosting.slnx
@@ -35,9 +35,9 @@ dotnet test Invex.Extensions.Hosting.slnx
 docfx docfx.json
 ```
 
-The test project targets `net10.0` and `net48`. The library targets
-`net10.0` and `netstandard2.0`; code must compile for both library
-targets. Use `#if NET8_0_OR_GREATER` for APIs unavailable on older targets, following the existing
+The test project targets `net10.0`, `net11.0` and `net48`. The library targets
+`net10.0`, `net11.0` and `netstandard2.0`; code must compile for every library
+target. Use `#if NET8_0_OR_GREATER` for APIs unavailable on older targets, following the existing
 pattern in `ServiceCollectionExtensions.cs`.
 
 After code changes, run ReSharper code cleanup over the solution's C# files. Point `--toolset-path`
@@ -67,7 +67,7 @@ Cleanup honors `.editorconfig` and team-shared `*.DotSettings` automatically.
   the library (only the test and `_atom` projects suppress it). Keep docs exact about null behavior,
   return values, timing, and errors.
 - Annotate every new public type with `[PublicAPI]`.
-- In the `net10.0` build, annotate DI implementation type parameters with
+- In the `net10.0` and `net11.0` builds, annotate DI implementation type parameters with
   `DynamicallyAccessedMembers(PublicConstructors)` for trimming and AOT compatibility.
 - Keep internal helpers `internal` and preserve the intentionally small public API.
 - Follow existing patterns, formatting, and localization. Add comments only where behavior is not
@@ -100,7 +100,7 @@ dotnet run --project _atom -- gen
 ```
 
 Commit regenerated files with the Atom change. The workflows validate and test the project on
-`net10.0` and `net48`; package and documentation publishing occurs in the
+`net10.0`, `net11.0` and `net48`; package and documentation publishing occurs in the
 Build workflow. Notable Atom targets include `PackProjects`, `TestProjects`, `TestFxProjects`,
 `BuildDocs`, `PublishDocs`, and `CheckPrForBreakingChanges`.
 

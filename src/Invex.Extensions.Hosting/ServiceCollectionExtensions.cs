@@ -31,7 +31,7 @@ namespace Invex.Extensions.Hosting;
 ///         <c>AddScoped</c> methods; they are not conditional <c>TryAdd</c> registrations.
 ///     </para>
 ///     <para>
-///         In the <c>net10.0</c> build, the <c>TImplementation</c> type parameter of every overload is
+///         In the <c>net10.0</c> and <c>net11.0</c> builds, the <c>TImplementation</c> type parameter of every overload is
 ///         annotated with <c>[DynamicallyAccessedMembers]</c>
 ///         (<c>DynamicallyAccessedMemberTypes.PublicConstructors</c>), so the constructors required by the
 ///         dependency injection container are preserved under trimming.
